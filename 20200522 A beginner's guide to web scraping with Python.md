@@ -515,7 +515,7 @@ _Author's note: This article is an adaptation of a [talk I gave at PyCascades][2
 _作者注释：本文是2020年2月9日在俄勒冈州波特兰的[我在PyCascades的演讲][24]的改编。_
 作者：[Julia Piaskowski][a]
 选题：[lujun9972][b]
-译者：[译者ID](https://github.com/stevenzdg988)
+译者：[stevenzdg988](https://github.com/stevenzdg988)
 译者：[译者ID](https://github.com/译者ID)
 校对：[校对者ID](https://github.com/校对者ID)
 
