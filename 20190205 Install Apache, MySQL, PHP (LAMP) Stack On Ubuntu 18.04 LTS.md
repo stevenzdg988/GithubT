@@ -8,15 +8,18 @@
 [#]: author: (SK https://www.ostechnix.com/author/sk/)
 
 Install Apache, MySQL, PHP (LAMP) Stack On Ubuntu 18.04 LTS
+Ubuntu 18.04 LTS 安装 Apache，MySQL，PHP（LAMP）套件
 ======
 
 ![](https://www.ostechnix.com/wp-content/uploads/2019/02/lamp-720x340.jpg)
 
 **LAMP** stack is a popular, open source web development platform that can be used to run and deploy dynamic websites and web-based applications. Typically, LAMP stack consists of Apache webserver, MariaDB/MySQL databases, PHP/Python/Perl programming languages. LAMP is the acronym of **L** inux, **M** ariaDB/ **M** YSQL, **P** HP/ **P** ython/ **P** erl. This tutorial describes how to install Apache, MySQL, PHP (LAMP stack) in Ubuntu 18.04 LTS server.
-
+**LAMP** 套件是一种流行的开源 Web 开发平台，可用于运行和部署动态网站和基于 Web 的应用程序。 通常，LAMP 套件由 Apache Web 服务器，MariaDB/MySQL 数据库，PHP/Python/Perl 程序设计（脚本）语言组成。 LAMP 是 **L**inux，**M**ariaDB/**M**YSQL，**P**HP/**P**ython/**P**erl 的缩写。 本教程描述了如何在 Ubuntu 18.04 LTS 服务器中安装 Apache，MySQL，PHP（LAMP套件）。
 ### Install Apache, MySQL, PHP (LAMP) Stack On Ubuntu 18.04 LTS
+在Ubuntu 18.04 LTS上安装Apache，MySQL，PHP（LAMP）套件
 
 For the purpose of this tutorial, we will be using the following Ubuntu testbox.
+就本教程而言，我们将使用以下 Ubuntu 测试项。
 
   * **Operating System** : Ubuntu 18.04.1 LTS Server Edition
   * **IP address** : 192.168.225.22/24
@@ -24,9 +27,10 @@ For the purpose of this tutorial, we will be using the following Ubuntu testbox.
 
 
 #### 1. Install Apache web server
+安装 Apache Web 服务器
 
 First of all, update Ubuntu server using commands:
-
+首先，利用下面命令更新 Ubuntu 服务器：
 ```
 $ sudo apt update
 
@@ -34,19 +38,20 @@ $ sudo apt upgrade
 ```
 
 Next, install Apache web server:
+然后，安装 Apache Web 服务器（命令如下）：
 
 ```
 $ sudo apt install apache2
 ```
 
 Check if Apache web server is running or not:
-
+检查 Apache Web 服务器是否已经运行：
 ```
 $ sudo systemctl status apache2
 ```
 
 Sample output would be:
-
+输出的示例大概是这样的：
 ```
 ● apache2.service - The Apache HTTP Server
  Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: en
@@ -66,19 +71,19 @@ Feb 05 10:48:03 ubuntuserver systemd[1]: Started The Apache HTTP Server.
 ```
 
 Congratulations! Apache service is up and running!!
-
+祝贺你！ Apache 服务已经启动并运行了！！
 ##### 1.1 Adjust firewall to allow Apache web server
-
+调整防火墙允许 Apache Web 服务器
 By default, the apache web browser can’t be accessed from remote systems if you have enabled the UFW firewall in Ubuntu 18.04 LTS. You must allow the http and https ports by following the below steps.
-
+默认情况下，如果您已在 Ubuntu 18.04 LTS 中启用 UFW 防火墙，则无法从远程系统访问 Apache Web 服务器。 必须按照以下步骤开启 `http` 和 `https` 端口。
 First, list out the application profiles available on your Ubuntu system using command:
-
+首先，使用以下命令列出 Ubuntu 系统上可用的应用程序配置文件：
 ```
 $ sudo ufw app list
 ```
 
 Sample output:
-
+示例输出如下：
 ```
 Available applications:
 Apache
@@ -88,15 +93,16 @@ OpenSSH
 ```
 
 As you can see, Apache and OpenSSH applications have installed UFW profiles. You can list out information about each profile and its included rules using “ **ufw app info “Profile Name”** command.
+如你所见，Apache 和 OpenSSH 应用程序已安装 UFW 配置文件。你可以使用 “**ufw app info “Profile Name”**” 命令列出有关每个配置文件及其包含的规则的信息。
 
 Let us look into the **“Apache Full”** profile. To do so, run:
-
+让我们研究一下 **“Apache Full”** 配置文件。 为此，请运行：
 ```
 $ sudo ufw app info "Apache Full"
 ```
 
 Sample output:
-
+示例输出如下：
 ```
 Profile: Apache Full
 Title: Web Server (HTTP,HTTPS)
@@ -108,9 +114,9 @@ Ports:
 ```
 
 As you see, “Apache Full” profile has included the rules to enable traffic to the ports **80** and **443** :
-
+如你所见，“Apache Full” 配置文件包含了启用经由端口 **80** 和 **443** 的传输规则：
 Now, run the following command to allow incoming HTTP and HTTPS traffic for this profile:
-
+现在，运行以下命令配置允许 HTTP 和 HTTPS 传入通信：
 ```
 $ sudo ufw allow in "Apache Full"
 Rules updated
@@ -118,35 +124,37 @@ Rules updated (v6)
 ```
 
 If you don’t want to allow https traffic, but only http (80) traffic, run:
-
+如果您不想允许 `https` 通信，而只允许 `http（80）` 通信，请运行：
 ```
 $ sudo ufw app info "Apache"
 ```
 
-##### 1.2 Test Apache Web server
+##### 1.2 Test Apache Web server 
+测试 Apache Web 服务器
 
 Now, open your web browser and access Apache test page by navigating to **<http://localhost/>** or **<http://IP-Address/>**.
-
+现在，打开 Web 浏览器并导航到 **<http://localhost/>** 或 **<http://IP-Address/>** 来访问 Apache 测试页。
 ![](https://www.ostechnix.com/wp-content/uploads/2016/06/apache-2.png)
 
 If you are see a screen something like above, you are good to go. Apache server is working!
+如果看到上面类似的显示内容，那就成功了。 Apache 服务器正在工作！
 
 #### 2. Install MySQL
-
+安装 MySQL
 To install MySQL On Ubuntu, run:
-
+在 Ubuntu 安装 MySQL 请运行：
 ```
 $ sudo apt install mysql-server
 ```
 
 Verify if MySQL service is running or not using command:
-
+使用以下命令验证 MySQL 服务是否正在运行：
 ```
 $ sudo systemctl status mysql
 ```
 
 **Sample output:**
-
+示例输出如下：
 ```
 ● mysql.service - MySQL Community Server
 Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enab
@@ -161,18 +169,20 @@ Feb 05 11:07:50 ubuntuserver systemd[1]: Started MySQL Community Server.
 ```
 
 Mysql is running!
-
+MySQL 正在运行！
 ##### 2.1 Setup database administrative user (root) password
-
+配置数据库管理用户（root）密码
 By default, MySQL **root** user password is blank. You need to secure your MySQL server by running the following script:
-
+默认情况下，MySQL **root** 用户密码为空。您需要通过运行以下脚本使你的 MySQL 服务器安全：
 ```
 $ sudo mysql_secure_installation
 ```
 
 You will be asked whether you want to setup **VALIDATE PASSWORD plugin** or not. This plugin allows the users to configure strong password for database credentials. If enabled, It will automatically check the strength of the password and enforces the users to set only those passwords which are secure enough. **It is safe to leave this plugin disabled**. However, you must use a strong and unique password for database credentials. If don’t want to enable this plugin, just press any key to skip the password validation part and continue the rest of the steps.
+系统将询问你是否要安装 **VALIDATE PASSWORD plugin（密码验证插件）**。该插件允许用户为数据库配置强密码凭据。如果启用，它将自动检查密码的强度并强制用户设置足够安全的密码。 **禁用此插件是安全的**。但是，必须为数据库使用唯一的强密码凭据。如果不想启用此插件，只需按任意键即可跳过密码验证部分，然后继续其余步骤。
 
 If your answer is **Yes** , you will be asked to choose the level of password validation.
+如果回答是 **是**，则会要求您选择密码验证级别。
 
 ```
 Securing the MySQL server deployment.
@@ -188,7 +198,7 @@ Press y|Y for Yes, any other key for No y
 ```
 
 The available password validations are **low** , **medium** and **strong**. Just enter the appropriate number (0 for low, 1 for medium and 2 for strong password) and hit ENTER key.
-
+可用的密码验证有 **low（低）** , **medium（中）** and **strong（强）**。只需输入适当的数字（0表示低，1表示中，2表示强密码）并按 ENTER 键。
 ```
 There are three levels of password validation policy:
 
@@ -200,7 +210,7 @@ Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG:
 ```
 
 Now, enter the password for MySQL root user. Please be mindful that you must use password for mysql root user depending upon the password policy you choose in the previous step. If you didn’t enable the plugin, just use any strong and unique password of your choice.
-
+现在，输入 MySQL root 用户的密码。请注意，必须根据上一步中选择的密码策略，为 Mysql root 用户使用密码。如果你未启用该插件，则只需使用你选择的任意强度且唯一的密码即可。
 ```
 Please set the password for root here.
 
@@ -213,9 +223,9 @@ Do you wish to continue with the password provided?(Press y|Y for Yes, any other
 ```
 
 Once you entered the password twice, you will see the password strength (In our case it is **50** ). If it is OK for you, press Y to continue with the provided password. If not satisfied with password length, press any other key and set a strong password. I am OK with my current password, so I chose **y**.
-
+两次输入密码后，您将看到密码强度（在此示例情况下为**50**）。如果您确定可以，请按 Y 继续提供的密码。如果对密码长度不满意，请按其他任意键并设置一个强密码。我现在的密码可以，所以我选择了**y**。
 For the rest of questions, just type **y** and hit ENTER. This will remove anonymous user, disallow root user login remotely and remove test database.
-
+对于其余的问题，只需键入**y**并按 Enter。这将删除匿名用户，禁止 root 用户远程登录并删除 `test`(测试)数据库。
 ```
 Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
 Success.
@@ -249,7 +259,7 @@ All done!
 ```
 
 That’s it. Password for MySQL root user has been set.
-
+以上就是为 MySQL root 用户设置密码。
 ##### 2.2 Change authentication method for MySQL root user
 
 By default, MySQL root user is set to authenticate using the **auth_socket** plugin in MySQL 5.7 and newer versions on Ubuntu. Even though it enhances the security, it will also complicate things when you access your database server using any external programs, for example phpMyAdmin. To fix this issue, you need to change authentication method from **auth_socket** to **mysql_native_password**. To do so, login to your MySQL prompt using command:
