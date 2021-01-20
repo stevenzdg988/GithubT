@@ -19,29 +19,35 @@ If you want people to find your website useful, they need to be able to read it.
 如果希望人们发现你的网站实用，那么他们需要能够阅读它。为文本选择的颜色可能会影响网站的可读性。不幸的是，网页设计中的一种流行趋势是在打印输出文本时使用低对比度的颜色，就像在白色背景上的灰色文本。对于 Web 设计师来说，这也许看起来很酷，但对于许多阅读它的人来说确实很困难。
 
 The W3C provides Web Content Accessibility Guidelines, which includes guidance to help web designers pick text and background colors that can be easily distinguished from each other. This is called the "contrast ratio." The W3C definition of the contrast ratio requires several calculations: given two colors, you first compute the relative luminance of each, then calculate the contrast ratio. The ratio will fall in the range 1 to 21 (typically written 1:1 to 21:1). The higher the contrast ratio, the more the text will stand out against the background. For example, black text on a white background is highly visible and has a contrast ratio of 21:1. And white text on a white background is unreadable at a contrast ratio of 1:1.
-W3C提供了“ Web内容可访问性指南”，其中包括一些指南，以帮助Web设计人员选择易于区分的文本和背景色。这称为“对比度”。 W3C对对比度的定义需要进行一些计算：给定两种颜色，首先计算每种颜色的相对亮度，然后计算对比率。该比率将落在1到21的范围内（通常写为1：1到21：1）。对比度越高，文本在背景下的突出程度就越高。例如，白色背景上的黑色文本非常醒目，对比度为21：1。对比度为1：1的白色背景上的白色文本不可读。
+W3C 提供了 Web 内容可访问性指南，其中包括帮助 Web 设计人员选择易于区分文本和背景色的指南。称为“对比度”。 W3C 定义的对比度需要进行一些计算：给定两种颜色，首先计算每种颜色的相对亮度，然后计算对比度。对比度在 1 到 21 的范围内（通常写为1：1到21：1）。对比度越高，文本在背景下的突出程度就越高。例如，白色背景上的黑色文本非常醒目，对比度为 21：1。对比度为 1：1 的白色背景上的白色文本不可读。
 
 The [W3C says body text][1] should have a contrast ratio of at least 4.5:1 with headings at least 3:1. But that seems to be the bare minimum. The W3C also recommends at least 7:1 for body text and at least 4.5:1 for headings.
+[W3C 说文本显示][1] 的对比度至少应为 4.5：1，标题至少应为 3：1。但这似乎是最低要求。 W3C 还建议正文至少 7：1，标题至少 4.5：1。
 
 Calculating the contrast ratio can be a chore, so it's best to automate it. I've done that with this handy Bash script. In general, the script does these things:
-
+计算对比度可能比较麻烦，因此最好将其自动化。我已经用这个方便的 Bash 脚本做到了这一点。通常，脚本执行以下操作：
   1. Gets the text color and background color
   2. Computes the relative luminance of each
   3. Calculates the contrast ratio
-
+  1. 获取文本颜色和背景颜色
+  2. 计算相对亮度
+  3. 计算对比度
 
 
 ### Get the colors
-
+获取颜色
 You may know that every color on your monitor can be represented by red, green, and blue (R, G, and B). To calculate the relative luminance of a color, my script will need to know the red, green, and blue components of the color. Ideally, my script would read this information as separate R, G, and B values. Web designers might know the specific RGB code for their favorite colors, but most humans don't know RGB values for the different colors. Instead, most people reference colors by names like "red" or "gold" or "maroon."
+你可能知道显示器上的每种颜色都可以用红色，绿色和蓝色（R，G 和 B）表示。要计算颜色的相对亮度，脚本需要知道颜色的红，绿和蓝的各个分量。理想情况下，脚本会将这些信息读取为单独的 R，G 和 B 值。 Web 设计人员可能知道他们喜欢的颜色的特定 RGB 代码，但是大多数人不知道不同颜色的 RGB 值。作为一种替代的方法是，大多数人通过 “红色” 或 “金色” 或 “栗色” 之类的名称来引用颜色。
 
 Fortunately, the GNOME [Zenity][2] tool has a color-picker app that lets you use different methods to select a color, then returns the RGB values in a predictable format of "rgb( **R** , **G** , **B** )". Using Zenity makes it easy to get a color value:
+幸运的是，GNOME [Zenity][2] 工具有一个颜色选择器应用程序，可让您使用不同的方法选择颜色，然后用可预测的格式“rgb（**R**，**G**，**B**）” 返回 RGB 值。使用 Zenity 可以轻松获得颜色值：
 
 ```
 color=$( zenity --title 'Set text color' --color-selection --color='black' )
 ```
 
 In case the user (accidentally) clicks the Cancel button, the script assumes a color:
+如果用户（意外地）单击 “Cancel（取消）” 按钮，脚本将采用一种颜色：
 
 ```
 if [ $? -ne 0 ] ; then
@@ -51,13 +57,13 @@ fi
 ```
 
 My script does something similar to set the background color value as **$background**.
-
+我的脚本执行了类似的操作，将背景颜色值设置为 **$background**。
 ### Compute the relative luminance
-
+计算相对亮度
 Once you have the foreground color in **$color** and the background color in **$background** , the next step is to compute the relative luminance for each. On its website, the [W3C provides an algorithm][3] to compute the relative luminance of a color.
-
-> For the sRGB colorspace, the relative luminance of a color is defined as
->  **L = 0.2126 core.md Dict.md lctt2014.md lctt2016.md lctt2018.md LICENSE published README.md scripts sources translated R + 0.7152 core.md Dict.md lctt2014.md lctt2016.md lctt2018.md LICENSE published README.md scripts sources translated G + 0.0722 core.md Dict.md lctt2014.md lctt2016.md lctt2018.md LICENSE published README.md scripts sources translated B** where R, G and B are defined as:
+一旦您在 **$color** 中设置了前景色，并在 **$background** 中设置了背景色，下一步就是计算每种颜色的相对亮度。 [W3C 提供算法][3] 用以计算颜色的相对亮度。
+> For the sRGB colorspace, the relative luminance of a color is defined as(对于sRGB色彩空间，一种颜色的相对亮度定义为)
+>  **L = 0.2126 core.md Dict.md lctt2014.md lctt2016.md lctt2018.md LICENSE published README.md scripts sources translated R + 0.7152 core.md Dict.md lctt2014.md lctt2016.md lctt2018.md LICENSE published README.md scripts sources translated G + 0.0722 core.md Dict.md lctt2014.md lctt2016.md lctt2018.md LICENSE published README.md scripts sources translated B** where R, G and B are defined as: R，G 和 B 定义为：
 >
 > if RsRGB <= 0.03928 then R = RsRGB/12.92
 >  else R = ((RsRGB+0.055)/1.055) ^ 2.4
@@ -77,6 +83,7 @@ Once you have the foreground color in **$color** and the background color in **$
 > BsRGB = B8bit/255
 
 Since Zenity returns color values in the format "rgb( **R** , **G** , **B** )," the script can easily pull apart the R, B, and G values to compute the relative luminance. AWK makes this a simple task, using the comma as the field separator ( **-F,** ) and using AWK's **substr()** string function to pick just the text we want from the "rgb( **R** , **G** , **B** )" color value:
+由于 Zenity 以 “rgb（**R**，**G**，**B**）”的格式返回颜色值，因此脚本可以轻松拉取分隔开的 R，B 和 G 的值以计算相对亮度。 AWK 使用逗号作为字段分隔符（**-F,**），并使用 **substr()** 字符串函数从 “rgb(**R**，**G**，**B**)中提取所要的颜色值：
 
 ```
 R=$( echo $color | awk -F, '{print substr($1,5)}' )
@@ -85,8 +92,9 @@ B=$( echo $color | awk -F, '{n=length($3); print substr($3,1,n-1)}' )
 ```
 
 **(For more on extracting and displaying data with AWK,[Get our AWK cheat sheet][4].)**
-
+**(有关使用 AWK 提取和显示数据的更多信息，[获取 AWK 备忘表][4].)**
 Calculating the final relative luminance is best done using the BC calculator. BC supports the simple if-then-else needed in the calculation, which makes this part simple. But since BC cannot directly calculate exponentiation using a non-integer exponent, we need to do some extra math using the natural logarithm instead:
+最好使用 BC 计算器来计算最终的相对亮度。 BC 支持计算中所需的简单 `if-then-else`，这使得这一过程变得简单。 但是由于 BC 无法使用非整数指数直接计算乘幂，因此我们需要使用自然对数做一些额外的数学运算：
 
 ```
 echo "scale=4
