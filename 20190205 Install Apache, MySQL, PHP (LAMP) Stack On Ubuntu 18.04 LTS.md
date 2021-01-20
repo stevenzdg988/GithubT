@@ -16,13 +16,15 @@ Ubuntu 18.04 LTS 安装 Apache，MySQL，PHP（LAMP）套件
 **LAMP** stack is a popular, open source web development platform that can be used to run and deploy dynamic websites and web-based applications. Typically, LAMP stack consists of Apache webserver, MariaDB/MySQL databases, PHP/Python/Perl programming languages. LAMP is the acronym of **L** inux, **M** ariaDB/ **M** YSQL, **P** HP/ **P** ython/ **P** erl. This tutorial describes how to install Apache, MySQL, PHP (LAMP stack) in Ubuntu 18.04 LTS server.
 **LAMP** 套件是一种流行的开源 Web 开发平台，可用于运行和部署动态网站和基于 Web 的应用程序。 通常，LAMP 套件由 Apache Web 服务器，MariaDB/MySQL 数据库，PHP/Python/Perl 程序设计（脚本）语言组成。 LAMP 是 **L**inux，**M**ariaDB/**M**YSQL，**P**HP/**P**ython/**P**erl 的缩写。 本教程描述了如何在 Ubuntu 18.04 LTS 服务器中安装 Apache，MySQL，PHP（LAMP套件）。
 ### Install Apache, MySQL, PHP (LAMP) Stack On Ubuntu 18.04 LTS
-在Ubuntu 18.04 LTS上安装Apache，MySQL，PHP（LAMP）套件
+在Ubuntu 18.04 LTS 上安装 Apache，MySQL，PHP（LAMP）套件
 
 For the purpose of this tutorial, we will be using the following Ubuntu testbox.
 就本教程而言，我们将使用以下 Ubuntu 测试项。
 
   * **Operating System** : Ubuntu 18.04.1 LTS Server Edition
+  * **操作系统**：Ubuntu 18.04.1 LTS Server Edition
   * **IP address** : 192.168.225.22/24
+  * **IP 地址** ：192.168.225.22/24
 
 
 
@@ -51,7 +53,7 @@ $ sudo systemctl status apache2
 ```
 
 Sample output would be:
-输出的示例大概是这样的：
+输出结果大概是这样的：
 ```
 ● apache2.service - The Apache HTTP Server
  Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: en
@@ -83,7 +85,7 @@ $ sudo ufw app list
 ```
 
 Sample output:
-示例输出如下：
+输出结果：
 ```
 Available applications:
 Apache
@@ -102,7 +104,7 @@ $ sudo ufw app info "Apache Full"
 ```
 
 Sample output:
-示例输出如下：
+输出结果：
 ```
 Profile: Apache Full
 Title: Web Server (HTTP,HTTPS)
@@ -154,7 +156,7 @@ $ sudo systemctl status mysql
 ```
 
 **Sample output:**
-示例输出如下：
+**输出结果：**
 ```
 ● mysql.service - MySQL Community Server
 Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enab
@@ -261,21 +263,22 @@ All done!
 That’s it. Password for MySQL root user has been set.
 以上就是为 MySQL root 用户设置密码。
 ##### 2.2 Change authentication method for MySQL root user
-
+更改 MySQL 超级用户的身份验证方法
 By default, MySQL root user is set to authenticate using the **auth_socket** plugin in MySQL 5.7 and newer versions on Ubuntu. Even though it enhances the security, it will also complicate things when you access your database server using any external programs, for example phpMyAdmin. To fix this issue, you need to change authentication method from **auth_socket** to **mysql_native_password**. To do so, login to your MySQL prompt using command:
-
+默认情况下，Ubuntu 系统的 MySQL root 用户为 MySQL 5.7 版本使用插件 **auth_socket** 和更新版本设置身份验证。 尽管它增强了安全性，但是当您使用任何外部程序（例如 phpMyAdmin）访问数据库服务器时，也会变得更困难。 要解决此问题，您需要将身份验证方法从 **auth_socket** 更改为 **mysql_native_password**。 为此，请使用以下命令登录到您的 MySQL 提示符下：
 ```
 $ sudo mysql
 ```
 
 Run the following command at the mysql prompt to find the current authentication method for all mysql user accounts:
+在 MySQL 提示符下运行以下命令，找到所有 MySQL 当前用户帐户的身份验证方法：
 
 ```
 SELECT user,authentication_string,plugin,host FROM mysql.user;
 ```
 
 **Sample output:**
-
+**输出结果：**
 ```
 +------------------|-------------------------------------------|-----------------------|-----------+
 | user | authentication_string | plugin | host |
@@ -291,54 +294,60 @@ SELECT user,authentication_string,plugin,host FROM mysql.user;
 ![][2]
 
 As you see, mysql root user uses `auth_socket` plugin for authentication.
+如你所见，Mysql root 用户使用 `auth_socket` 插件进行身份验证。
 
 To change this authentication to **mysql_native_password** method, run the following command at mysql prompt. Don’t forget to replace **“password”** with a strong and unique password of your choice. If you have enabled VALIDATION plugin, make sure you have used a strong password based on the current policy requirements.
+要将此身份验证更改为 **mysql_native_password** 方法，请在 Mysql 提示符下运行以下命令。 别忘了用你选择的强大唯一密码替换 **“password”**。 如果已启用 VALIDATION 插件，请确保已根据当前策略要求使用了强密码。
 
 ```
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 ```
 
 Update the changes using command:
+使用以下命令更新数据库：
 
 ```
 FLUSH PRIVILEGES;
 ```
 
 Now check again if the authentication method is changed or not using command:
-
+使用命令再次检查身份验证方法是否已更改：
 ```
 SELECT user,authentication_string,plugin,host FROM mysql.user;
 ```
 
 Sample output:
-
+输出结果：
 ![][3]
 
 Good! Now the myql root user can authenticate using password to access mysql shell.
-
+好！Myql root 用户就可以使用密码进行身份验证来访问 `mysql shell`。
 Exit from the mysql prompt:
-
+从 Mysql 提示符下退出：
 ```
 exit
 ```
 
 #### 3\. Install PHP
-
+安装 PHP
 To install PHP, run:
+安装 PHP 请运行：
 
 ```
 $ sudo apt install php libapache2-mod-php php-mysql
 ```
 
 After installing PHP, create **info.php** file in the Apache root document folder. Usually, the apache root document folder will be **/var/www/html/** or **/var/www/** in most Debian based Linux distributions. In Ubuntu 18.04 LTS, it is **/var/www/html/**.
+安装 PHP 后，在 Apache 文档根目录中创建 **info.php** 文件。通常，在大多数基于 Debian 的 Linux 发行版中，Apache 文档根目录为 **/var/www/html/** 或 **/var/www/**。Ubuntu 18.04 LTS 系统下，文档根目录是 **/var/www/html/**。
 
 Let us create **info.php** file in the apache root folder:
-
+在 Apache 根目录中创建 **info.php** 文件：
 ```
 $ sudo vi /var/www/html/info.php
 ```
 
 Add the following lines:
+在此文件中编辑如下内容：
 
 ```
 <?php
@@ -347,27 +356,29 @@ phpinfo();
 ```
 
 Press ESC key and type **:wq** to save and quit the file. Restart apache service to take effect the changes.
-
+然后按下 ESC 键并且输入 **:wq** 保存并退出此文件。重新启动 Apache 服务使更改生效。
 ```
 $ sudo systemctl restart apache2
 ```
 
 ##### 3.1 Test PHP
+测试 PHP
 
 Open up your web browser and navigate to **<http://IP-address/info.php>** URL.
-
+打开 Web 浏览器，然后导航到 URL **<http://IP地址/info.php>**。
 You will see the php test page now.
+你就将看到 `php` 测试页面。
 
 ![](https://www.ostechnix.com/wp-content/uploads/2019/02/php-test-page.png)
 
 Usually, when a user requests a directory from the web server, Apache will first look for a file named **index.html**. If you want to change Apache to serve php files rather than others, move **index.php** to first position in the **dir.conf** file as shown below
-
+通常，当用户向 Web 服务器发出请求时，Apache 首先会在文档根目录中查找名为 **index.html** 的文件。如果您想将 Apache 更改为 `php` 文件提供服务而不是其他文件，请将 **dir.conf** 配置文件中的 **index.php** 移至第一个位置，如下所示：
 ```
 $ sudo vi /etc/apache2/mods-enabled/dir.conf
 ```
 
 Here is the contents of the above file.
-
+上面的配置文件 （**dir.conf**） 内容如下：
 ```
 <IfModule mod_dir.c>
 DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
@@ -377,7 +388,7 @@ DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
 ```
 
 Move the “index.php” file to first. Once you made the changes, your **dir.conf** file will look like below.
-
+将 **“index.php”** 移动到最前面。更改后，**dir.conf** 文件内容看起来如下所示。
 ```
 <IfModule mod_dir.c>
 DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
@@ -387,51 +398,51 @@ DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
 ```
 
 Press **ESC** key and type **:wq** to save and close the file. Restart Apache service to take effect the changes.
-
+然后按下 ESC 键并且输入 **:wq** 保存并关闭此文件。重新启动 Apache 服务使更改生效。
 ```
 $ sudo systemctl restart apache2
 ```
 
 ##### 3.2 Install PHP modules
-
+安装 PHP 模块
 To improve the functionality of PHP, you can install some additional PHP modules.
-
+为了增加 PHP 的功能，可以安装一些其他的 PHP 模块。
 To list the available PHP modules, run:
-
+要列出可用的 PHP 模块，请运行：
 ```
 $ sudo apt-cache search php- | less
 ```
 
 **Sample output:**
-
+**输出结果:**
 ![][4]
 
 Use the arrow keys to go through the result. To exit, type **q** and hit ENTER key.
-
+使用方向键浏览结果。要退出，请输入**q** 并按下 ENTER 键。
 To find the details of any particular php module, for example **php-gd** , run:
-
+要查找任意 `php` 模块的详细信息，例如 **php-gd**，请运行：
 ```
 $ sudo apt-cache show php-gd
 ```
 
 To install a php module run:
-
+安装 `php` 模块请运行：
 ```
 $ sudo apt install php-gd
 ```
 
 To install all modules (not necessary though), run:
-
+安装所有的模块（虽然没有必要），请运行：
 ```
 $ sudo apt-get install php*
 ```
 
 Do not forget to restart Apache service after installing any php module. To check if the module is loaded or not, open info.php file in your browser and check if it is present.
-
+安装任何 `php` 模块后，请不要忘记重新启动 Apache 服务。要检查模块是否已加载，请在浏览器中打开 `info.php` 文件并检查是否存在。
 Next, you might want to install any database management tools to easily manage databases via a web browser. If so, install phpMyAdmin as described in the following link.
-
+接下来，您可能需要安装数据库管理工具，以通过 Web 浏览器轻松管理数据库。如果是这样，请按照以下链接中的说明安装 `phpMyAdmin`。
 Congratulations! We have successfully setup LAMP stack in Ubuntu 18.04 LTS server.
-
+祝贺你！我们已经在 Ubuntu 18.04 LTS 服务器中成功配置了 LAMP 套件。
 
 
 --------------------------------------------------------------------------------
