@@ -90,19 +90,22 @@ _免责声明：[meetup.com][8] 已于2019年8月更改了他们的 API，目前
 ### **[centos-announcements.pl][9]**
 
 This script is considerably more complicated and extremely specific to my use case, but you probably have a similar situation. This script looks at a mailing list archive—in this case, the centos-announce mailing list—and finds messages that are in a particular format, then builds a report of those messages. Reports come in a couple of different formats—one for my monthly newsletter and one for scheduling messages (via Hootsuite) for Twitter.
+该脚本在我所使用的实例中是相当复杂的和非常明确的，但你可能有类似的情况。在本例中该脚本查看邮件列表存档（`centos-announce` 邮件列表），并查找具有特定格式的邮件，然后生成这些邮件的报告。报告有两种不同的格式——一种用于我的每月新闻通讯，另一种用于安排 Twitter 信息（借助于 Hootsuite）。
 
 I use Hootsuite to schedule content for Twitter, and they have a convenient CSV (comma-separated value) format that lets you bulk-schedule a whole week of tweets in one go. Auto-generating that CSV from various data sources (i.e., mailing lists, blogs, other web pages) can save you a lot of time. Do note, however, that this should probably only be used for a first draft, which you then examine and edit yourself so that you don't end up auto-tweeting something you didn't intend to.
-
+我使用 `Hootsuite` 为 Twitter 安排内容，它们具有便捷的 CSV（逗号分隔值）格式，你可以一次批量安排整整一周的推文。从不同数据源（比如：邮件列表，博客，其他网页）自动生成 CSV 格式可以节省大量时间。但是请注意，这可能仅应用于初稿，然后您可以对其进行检查和编辑，以便最终不会自动发布你不想要内容的推文。
 ### **[reporting.pl][10]**
 
 This script is also fairly specific to my particular needs, but the concept itself is universal. I send out a monthly mailing to the [CentOS SIGs][11] (Special Interest Groups), which are scheduled to report in that given month. This script simply tells me which SIGs those are this month, and writes the email that needs to go to them.
+该脚本也非常符合我的特定需求，但是概念本身是通用的。我每月向 [CentOS SIG][11]（特殊兴趣小组）发送邮件，这些邮件计划在给定的月份报告。该脚本只是告诉我本月有哪些 SIG，并记录需要发送给他们的电子邮件。
 
 It does not actually send that email, however, for a couple of reasons. One, I may wish to edit those messages before they go out. Two, while scripts sending email worked great in the old days, these days, they're likely to result in getting spam-filtered.
-
+但是，因以下两个原因，实际上并未发送该电子邮件。第一，我希望在消息发送之前对其进行编辑。第二，虽然发送电子邮件的脚本在过去很有效，但如今，很可能被当做垃圾邮件而被过滤。
 ### In conclusion
+综上所述（总结）
 
 There are some other scripts in that repo that are more or less specific to my particular needs, but I hope at least one of them is useful to you, and that the variety of what's there inspires you to automate something of your own. I'd love to see your handy automation script repos, too; link to them in the comments!
-
+该存储库中还有一些其他脚本或多或少是针对我的特定需求的，但是我希望其中至少有一个脚本对你有用，并且激发你使自己的某些需要自动化。我也希望看到你方便的自动化脚本存储库；在评论中链接他们！
 --------------------------------------------------------------------------------
 
 via: https://opensource.com/article/20/3/automating-community-management-python
