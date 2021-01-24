@@ -8,35 +8,38 @@
 [#]: author: (RedHat https://www.redhat.com/en/command-line-heroes)
 
 Command Line Heroes: Season 6: Gladys Perkins: The Pioneer Who Took Us To New Heights
+代码英雄第 6 季：将我们带入新高度的先驱：格拉迪斯·帕金斯
+
 ======
 **00:01** - _Neil Armstrong_
 
 That's one small step for man, one giant leap for mankind.
-
+对一个人来说，是一小步，对人类而言，是一个巨大飞跃。
 **00:11** - _Saron Yitbarek_
 
 It was 10:56 P.M. Eastern Time on July 20, 1969. Neil Armstrong placed his left foot on the dusty surface of the moon. More than 600 million people were watching that moment on their black-and-white televisions, fascinated by the culmination of the space race between the U.S. and the Soviet Union. But behind that one moment, that famously small step, there were many other steps that remained invisible to the millions watching Neil Armstrong. These were steps taken by heroes whose names have been almost lost to history. I'm Saron Yitbarek, and this is Command Line Heroes, an original podcast from Red Hat.
-
+东部时间 1969 年 7 月 20 日下午 10:56。尼尔·阿姆斯特朗（Neil Armstrong）将左脚踏上尘土飞扬的月球表面。超过 6 亿人在黑白电视机上观看那一刻，他们对美国与苏联之间达到顶点的太空竞赛感到着迷。但是在那一刻，那著名的一小步之后，对于成千上万观看尼尔·阿姆斯特朗的人们还有很多仍然看不见的。这些步几乎取代了已经被历史遗忘的英雄名字。我是 Saron Yitbarek，代码英雄，是 Red Hat 的原始播客。
 **01:07** - _Saron Yitbarek_
 
 You know, before Neil Armstrong and Buzz Aldrin could land on the moon, scientists, analysts, and computer engineers had to band together and learn how to plot a lunar trajectory—a flight path to the moon. And then, they had to figure out how to touch down without blowing everything up! Two pretty huge problems with life-and-death consequences for wrong answers. This is the story of the years of work that went into getting those answers right. Literally thousands of brilliant minds—at NASA and elsewhere — were bent toward this goal, and most of them never became famous.
-
+您知道，在尼尔·阿姆斯特朗（Neil Armstrong）和巴斯·奥尔德林（Buzz Aldrin）登上月球之前，科学家，分析家和计算机工程师必须联合在一起，学习如何绘制月球轨道——通往月球的飞行路径。然后，他们不得不弄清楚如何着陆而不炸毁！错误答案给生死带来了两个相当大的问题。这是多年来努力取得正确答案的故事。不夸张的说，美国宇航局 (NASA) 和其他地方的成千上万的智者都朝着这个目标前进，其中大多数人从未成名。
 **01:50** - _Saron Yitbarek_
 
 This whole season, we've been learning about heroes we barely knew, pioneers in science and technology who nudged humanity forward while staying out of the spotlight. And this time we're celebrating our most hard-to-find hero yet—an engineer named Gladys Perkins. Her work on lunar trajectories helped Neil Armstrong land on his feet. We were blown away when we learned about her achievements, especially when we thought about what it meant to be a Black woman working in a very white, very male field. And, at the same time, we were frustrated—because so much of Perkins' life and work seemed to have vanished from the history books. This is our attempt to write Gladys Perkins back into history. She wasn't in the top brass at NASA. She wasn't likely to be famous. And yet, she was just as much a part of this historical mission. This audacious plan where, with enough work and bright minds, we could send a person to the moon and bring them home again.
+在这一季中，我们一直在了解一些鲜为人知的英雄，即科学与技术的先驱，他们在不引起关注的情况下推动人类前进。这次，我们庆祝的是我们迄今为止最难找到的英雄——名为 Gladys Perkins 的工程师。她在月球轨迹上的工作帮助尼尔·阿姆斯特朗（Neil Armstrong）站起来。当我们得知她的成就，尤其是当我们想到当作为一名黑人妇女在白人和男性主导的领域中工作意味着什么时，我们震惊了。而且，与此同时，我们感到沮丧——因为珀金斯的生活和工作似乎已经从历史书中消失了。这是我们试图将格拉迪斯·珀金斯重新写入历史的尝试。她没有在 NASA 担任最高职务。她看起来不想成为名人。然而，她正是这个历史使命的一部分。这个大胆创新的计划是，用足够的努力和睿智的设想，我们就可以将一个人送上月球并将他们带回家。
 
 **03:11** - _Saron Yitbarek_
 
 Did you ever see that 1902 film “A Trip to the Moon” by George Méliès? Where the moon has an actual human face? A team of Victorian astronomers use a cannon to launch their rocket, and it basically smooshes into the lunar surface. Lucky shot. Well, in the earliest days of space exploration, that was basically the strategy. Take a rough sort of aim, fire, and cross your fingers. I'm exaggerating. But not by much.
-
+您是否看过乔治·梅里斯（George Méliès）于 1902 年拍摄的电影 “月球之旅”？影片里月亮有一张真正的人的脸？一群维多利亚时代的天文学家用大炮发射火箭，就这样火箭滑入月球表面。幸运的发射。在太空探索的最初几天，这策略基本上就是这样。粗略瞄准，发射，然后画十字祈祷。我太夸张了但不是很多。
 **03:48** - _Andrew Chaikin_
 
 The first two Rangers, they never even made it into the proper orbits because the launch vehicle failed.
-
+前两个 “流浪者” 甚至从未使其进入过正确的轨道，因为发射运载工具失败了。
 **03:55** - _Saron Yitbarek_
 
 Historian Andrew Chaikin walked us through NASA's early attempts to sidle up close to the moon. The Ranger Program started in 1960. Some called it “Shoot and Hope,” which might explain why they didn't put any humans on board.
-
+历史学家安德鲁·柴金（Andrew Chaikin）陪我们通过美国宇航局（NASA）了解早期尝试接近月球的计划。游骑兵计划始于 1960 年。有人将其称为 “发射与希望”，这也许可以解释为什么火箭没有载人。
 **04:13** - _Andrew Chaikin_
 
 On the third Ranger mission, they had a single error in the sign of a number within the software that was programmed into the upper stage of the launch vehicle, the booster, that was supposed to correct the flight path on the way to the moon in what's called a mid-course correction. And that inverted sign reversed the mid-course correction parameters and caused the spacecraft to miss the moon entirely.
