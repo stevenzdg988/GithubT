@@ -88,21 +88,25 @@ It might surprise you to know that Git is surprisingly self-reliant as a server.
 Git 作为服务器是完全自力更生的，这可能会让您感到惊讶。尽管它缺少用户管理和权限设置，但 Git 与 SSH 集成，并附带一个特殊的 `git-shell` 应用程序，该应用程序专门设计为用作受限环境使用的 Git 命令。通过将用户的默认 shell 设置为 `git-shell`，可以限制他们与服务器交互时可进行哪些操作。
 
 What Git alone does not offer is repository permission tools to help you manage what each user has access to. For this, you'll have to fall back on the operating system's user and access control list (ACL) controls, which can become tedious should you have more than just a handful of users. For small projects or projects just starting, running Git on a Linux server is an easy and immediate solution to the need for a collaborative space. For more information, read my article on [building a Git server][21].
-Git 不能提供的是存储库权限工具，可帮助您管理每个用户有权访问的内容。为此，您将不得不依靠操作系统的用户和访问控制列表（ACL）控件，如果您只有少数几个用户，这些控件可能会变得乏味。对于小型项目或刚刚开始的项目，在Linux服务器上运行Git是满足协作空间需求的便捷解决方案。有关更多信息，请阅读我关于[构建Git服务器] [21]的文章。
+Git 不能提供存储库权限的工具帮助您管理每个用户有权访问的内容。为此，您将不得不依靠操作系统的用户和访问控制列表（ACL）控件回退，如果您只有少数几个用户，这些控件可能会变得乏味。对于小型项目或刚刚开始的项目，在 Linux 服务器上运行 Git 是满足协作空间需求的便捷解决方案。有关更多信息，请阅读我关于 [构建 Git 服务器][21]的文章。
 
 ### Bonus: Fossil
+额外的：Fossil
 
 ![Fossil UI][22]
 
 (Klaatu, [CC BY-SA 4.0][5])
 
 Fossil isn't by any means Git, and in a sense, that's its appeal as an alternative to GitHub. In fact, Fossil is an alternative to the entire Git system. It's a complete version-control system, like Git, and it also has bug tracking, wiki, forum, and documentation features _built into every repository you create_. It also has a web interface included and is entirely self-contained. If it all sounds too good to be true, you can see it in action at [fossil-scm.org][23], because Fossil's homepage runs on Fossil!
+Fossil 绝不是 Git，从某种意义上讲，这是因为是 GitHub 的替代品而具有的吸引力。实际上，Fossil 是整个 Git 系统的替代品。它是一个完整的版本控制系统，例如 Git，并且在您 _创建的每个存储库中都内置_ 了错误跟踪，Wiki，论坛和文档功能。它还包含一个 Web 界面，并且完全是独立的。如果听起来一切都成真，那么您可以在 [fossil-scm.org][23] 上看到它的运行情况，因为 Fossil 的主页在 Fossil 上运行！
 
 Read Klaatu's article on [getting started with Fossil][24] for more information.
+有关更多信息，请阅读 Klaatu 关于 [Fossil入门][24] 的文章。
 
 ### Open source means choice
 
 The best thing about Git (and Fossil) is that they're open source technologies. You can choose whatever solution works best for you. In fact, because Git is also distributed, you can even choose _multiple_ solutions. There's nothing stopping you from hosting your code on several services and writing to all of them with each push. Take a look at your options, decide what works best for you, and get to work!
+关于Git（和化石）的最好的事情是它们是开源技术。您可以选择最适合您的解决方案。实际上，由于Git也是分布式的，因此您甚至可以选择_multiple_解决方案。没有什么可以阻止您将代码托管在多个服务上并在每次推送时将其写入所有服务。查看您的选择，确定最适合您的方法，然后开始工作！
 
 --------------------------------------------------------------------------------
 
