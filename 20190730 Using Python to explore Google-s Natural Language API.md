@@ -1,5 +1,5 @@
 [#]: collector: (lujun9972)
-[#]: translator: (stevenzdg988)
+[#]: translator: ( )
 [#]: reviewer: ( )
 [#]: publisher: ( )
 [#]: url: ( )
@@ -7,60 +7,62 @@
 [#]: via: (https://opensource.com/article/19/7/python-google-natural-language-api)
 [#]: author: (JR Oakes https://opensource.com/users/jroakes)
 
-利用 Python 探究 Google 的自然语言 API(应用程序接口)
+Using Python to explore Google's Natural Language API
 ======
-Google API 可以提供有关 Google 如何对网站进行分类的线索以及调整内容以改进搜索结果的方法。
-![计算机屏幕放大镜][1]
+Google's API can surface clues to how Google is classifying your site
+and ways to tweak your content to improve search results.
+![magnifying glass on computer screen][1]
 
-作为搜索引擎技术优化器，我一直在寻找以新颖的方式使用数据的方法，以更好地了解 Google 如何对网站进行排名。我最近研究了 Google 的 [自然语言 API][2] 是否能更好地了解 Google 如何分类网站内容。
+As a technical search engine optimizer, I am always looking for ways to use data in novel ways to better understand how Google ranks websites. I recently investigated whether Google's [Natural Language API][2] could better inform how Google may be classifying a site's content.
 
-尽管有 [开源 NLP 工具][3]，要探索 Google 工具，假设在其他产品中使用相同技术的前提下，像 Search。本文介绍了 Google 的自然语言 API，并探究了常见的自然语言处理（NLP）任务以及如何将其用于报告网站内容的创建。
+Although there are [open source NLP tools][3], I wanted to explore Google's tools under the assumption it might use the same tech in other products, like Search. This article introduces Google's Natural Language API and explores common natural language processing (NLP) tasks and how they might be used to inform website content creation.
 
-### 了解数据类型
+### Understanding the data types
 
-首先，了解 Google 自然语言 API 返回的数据类型非常重要。
+To begin, it is important to understand the types of data that Google's Natural Language API returns.
 
-#### 实体
+#### Entities
 
-实体是可以与物理世界中的某些事物联系在一起的文本短语。命名实体识别（NER）是 NLP 的难点，因为工具通常需要查看关键字的完整上下文才能理解其用法。例如，同形异义字拼写相同，但是具有多种含义。句子中的 "`lead`" 是指一种金属(名词),使某人移动(动词），还可能是剧本中的主要角色(也是名词)？Google 有 12 种不同类型的实体，还有第 13 个全方位类别称为 "`UNKNOWN`(未知)"。一些实体与 Wikipedia(维基百科)的文章相关，表明 [知识图谱][4] 对数据的影响。每个实体都返回一个显著的与所提供文本的整体相关性的分数。
+Entities are text phrases that can be tied back to something in the physical world. Named entity recognition (NER) is a difficult part of NLP because tools often need to look at the full context around words to understand their usage. For example, homographs are spelled the same but have multiple meanings. Does "lead" in a sentence refer to a metal (a noun), causing someone to move (a verb), or the main character in a play (also a noun)? Google has 12 distinct types of entities, as well as a 13th catch-all category called "UNKNOWN." Some of the entities tie back to Wikipedia articles, suggesting [Knowledge Graph][4] influence on the data. Each entity returns a salience score, which is its overall relevance to the supplied text.
 
-![实体][5]
+![Entities][5]
 
-#### 情感
+#### Sentiment
 
-情感，对某事的看法或态度，是判断文档和句子标准以及在文档中发现单个实体。情感的得分范围从 -1.0（负）到 1.0（正）。大小代表情感的非标准化强度;它的范围是 0.0 到无穷大。
+Sentiment, a view of or attitude towards something, is measured at the document and sentence level and for individual entities discovered in the document. The score of the sentiment ranges from -1.0 (negative) to 1.0 (positive). The magnitude represents the non-normalized strength of emotion; it ranges between 0.0 and infinity.
 
-![情感][6]
+![Sentiment][6]
 
-#### 语法
+#### Syntax
 
-语法分析包含大多数常见的 NLP 活动，在更好的 `libraries`(库)中发现，例如 [lemmatization(词形演变)][7]，[part-of-speech tagging(词性标记)][8] 和 [dependency-tree parsing(依赖树分析)][9]。 NLP 主要处理帮助机器理解文本和关键字之间的关系。语法分析是大多数语言处理或理解任务的基础部分。
+Syntax parsing contains most of the common NLP activities found in better libraries, like [lemmatization][7], [part-of-speech tagging][8], and [dependency-tree parsing][9]. NLP mainly deals with helping machines understand text and the relationship between words. Syntax parsing is a foundational part of most language-processing or understanding tasks.
 
-![语法][10]
+![Syntax][10]
 
-#### 分类
+#### Categories
 
-分类是将整个给定内容分配给特定行业或主题类别，其置信度得分从 0.0 到 1.0。这些分类似乎与其他 Google 工具使用的受众群体和网站类别相同，像 AdWords。
+Categories assign the entire given content to a specific industry or topical category with a confidence score from 0.0 to 1.0. The categories appear to be the same audience and website categories used by other Google tools, like AdWords.
 
-![分类][11]
+![Categories][11]
 
-### 提取数据
+### Pulling some data
 
-现在，我将提取一些示例数据进行处理。我使用 Google 的 [搜索控制台 API][12] 收集了一些搜索查询及其相应的网址。Google Search Console 是一种工具，可报告人们使用 Google Search 查找网站页面术语。[开源的 Jupyter Notebook][13] 可提取有关网站的类似数据。在此示例中，我在网站（没命名）上提取 Google Search Console 生成于 2019 年 1 月 1 日至 6 月 1 日之间的数据，并将其限制为至少获得一次点击（而不只是印象）的查询。
+Now I'll pull some sample data to play around with. I gathered some search queries and their corresponding URLs using Google's [Search Console API][12]. Google Search Console is a tool that reports the terms people use to find a website's pages with Google Search. This [open source Jupyter notebook][13] allows you to pull similar data about your website. For this example, I pulled Google Search Console data on a website (which I won't name) generated between January 1 and June 1, 2019, and restricted it to queries that received at least one click (as opposed to just impressions).
 
-该数据集包含 2969 页面和 7144 条显示了网页 Google Search 搜索结果查询的信息。下表显示，绝大多数页面获得的点击很少，因为该网站侧重于所谓的长尾（越特殊，通常更长）而不是短尾（非常普遍，搜索量更大）搜索查询。
+This dataset contains information on 2,969 pages and 7,144 queries that displayed the website's pages in Google Search results. The table below shows that the vast majority of pages received very few clicks, as this site focuses on what is called long-tail (more specific and usually longer) as opposed to short-tail (very general, higher search volume) search queries.
 
-![所有页面的点击次数柱状图][14]
+![Histogram of clicks for all pages][14]
 
-为了减少数据集的大小并仅获得效果最好的页面，我将数据集限制为在此期间至少获得 20 次展示的页面。这是精炼数据集的按页点击的柱状图，其中包括 723 页：
+To reduce the dataset size and get only top-performing pages, I limited the dataset to pages that received at least 20 impressions over the period. This is the histogram of clicks by page for this refined dataset, which includes 723 pages:
 
-![部分网页的点击次数柱状图][15]
+![Histogram of clicks for subset of pages][15]
 
-在 Python 中使用 Google 自然语言 API 库
+### Using Google's Natural Language API library in Python
 
-要测试 API，在 Python 中创建一个利用 **[google-cloud-language(Google 云语言)][16]** 库的小脚本。以下代码基于 Python 3.5+。
+To test out the API, create a small script that leverages the **[google-cloud-language][16]** library in Python. The following code is Python 3.5+.
 
-首先，激活一个新的虚拟环境并安装库。用环境的唯一名称替换 **＆lt;your-env＆gt;** 。
+First, activate a new virtual environment and install the libraries. Replace **&lt;your-env&gt;** with a unique name for the environment.
+
 
 ```
 virtualenv &lt;your-env&gt;
@@ -69,7 +71,8 @@ pip install --upgrade google-cloud-language
 pip install --upgrade requests
 ```
 
-该脚本从 URL 提取 HTML，并将 HTML 提供给自然语言 API。返回一个包含 **sentiment**, **entities**, 和 **categories** 的字典，其中这些键值都是列表。我使用 Jupyter Notebook 运行此代码，因为使用同一内核注释和重试代码更加容易。
+This script extracts HTML from a URL and feeds the HTML to the Natural Language API. It returns a dictionary of **sentiment**, **entities**, and **categories**, where the values for these keys are all lists. I used a Jupyter notebook to run this code because it makes it easier to annotate and retry code using the same kernel.
+
 
 ```
 # Import needed libraries
@@ -157,98 +160,103 @@ def load_text_from_url(url, **data):
         return None
 ```
 
-要访问该 API，请按照 Google 的 [快速入门说明][17] 在Google Cloud Console 中创建一个项目，启用该 API 并下载服务帐户密钥。之后，您应该拥有一个类似于以下内容的 JSON 文件：
+To access the API, follow Google's [quickstart instructions][17] to create a project in Google Cloud Console, enable the API, and download a service account key. Afterward, you should have a JSON file that looks similar to this:
 
-![`services.json` 文件][18]
+![services.json file][18]
 
-命名为 **services.json** 上传到项目文件夹。
+Upload it to your project folder with the name **services.json**.
 
-然后，您可以通过运行以下命令为任何 URL（例如 Opensource.com）拉取 API 数据：
+Then you can pull the API data for any URL (such as Opensource.com) by running the following:
+
 
 ```
 url = "<https://opensource.com/article/19/6/how-ssh-running-container>"
 pull_googlenlp(client,url)
 ```
 
-如果设置正确，您将看到以下输出：
+If it's set up correctly, you should see this output:
 
-![拉取 API 数据的输出][19]
+![Output from pulling API data][19]
 
-为了使入门更加容易，我创建了一个 [Jupyter Notebook][20]，您可以下载并使用它来测试提取网页的实体，类别和情感。我更喜欢使用 [JupyterLab][21]，它是 Jupyter Notebook 的扩展，其中包括文件查看器和其他增强的用户体验功能。如果您不熟悉这些工具，我认为利用 [Anaconda][22] 是开始使用 Python 和 Jupyter 的最简单途径。它使安装和设置 Python 以及公共库变得非常容易，尤其是在 Windows 上。
+To make it easier to get started, I created a [Jupyter Notebook][20] that you can download and use to test extracting web pages' entities, categories, and sentiment. I prefer using [JupyterLab][21], which is an extension of Jupyter Notebooks that includes a file viewer and other enhanced user experience features. If you're new to these tools, I think [Anaconda][22] is the easiest way to get started using Python and Jupyter. It makes installing and setting up Python, as well as common libraries, very easy, especially on Windows.
 
-### 处理数据
+### Playing with the data
 
-使用这些可抓取给定页面的 HTML 并将其传递给 Natural Language API 的函数，我可以对 723 个 URL 进行一些分析。首先，我将通过查看所有页面中返回的顶级分类的数量来查看与网站相关的分类。
+With these functions that scrape the HTML of the given page and pass it to the Natural Language API, I can run some analysis across the 723 URLs. First, I'll look at the categories relevant to the site by looking at the count of returned top categories across all pages.
 
-#### 分类
+#### Categories
 
-![来自示例站点的分类数据][23]
+![Categories data from example site][23]
 
-这似乎是该特定站点关键主题的相当准确的表示法。通过查看一个效果最好的页面进行排名的单个查询，我可以比较同一查询在 Google (搜索)结果中的其他排名页面。
+This seems to be a fairly accurate representation of the key themes of this particular site. Looking at a single query that one of the top-performing pages ranks for, I can compare the other ranking pages in Google's results for that same query.
 
-  * _URL 1 |顶级类别：/法律和政府/与法律相关的（0.5099999904632568）共 1 个类别。_
-  * _未返回任何类别。_
-  * _URL 3 |顶级类别：/ Internet＆amp;电信/移动与无线（0.6100000143051147）共 1 个类别。_
-  * _URL 4 |顶级类别：/计算机与电子产品/软件（0.5799999833106995）共有 2 个类别。_
-  * _URL 5 |顶级类别：/ Internet＆amp;电信/移动与无线/移动应用程序和附件（0.75）共有 1 个类别。_
-  * _未返回任何类别。_
-  * _URL 7 |顶级类别：/计算机与电子/软件/商业与生产力软件（0.7099999785423279）共2个类别。_
-  * _URL 8 |顶级类别：/法律和政府/与法律相关的（0.8999999761581421）共 3 个类别。_
-  * _URL 9 |顶级类别：/参考/一般参考/类型指南和模板（0.6399999856948853）共有 1 个类别。_
-  * _未返回任何类别。_
+  * _URL 1 | Top Category: /Law &amp; Government/Legal (0.5099999904632568) of 1 total categories._
+  * _No categories returned._
+  * _URL 3 | Top Category: /Internet &amp; Telecom/Mobile &amp; Wireless (0.6100000143051147) of 1 total categories._
+  * _URL 4 | Top Category: /Computers &amp; Electronics/Software (0.5799999833106995) of 2 total categories._
+  * _URL 5 | Top Category: /Internet &amp; Telecom/Mobile &amp; Wireless/Mobile Apps &amp; Add-Ons (0.75) of 1 total categories._
+  * _No categories returned._
+  * _URL 7 | Top Category: /Computers &amp; Electronics/Software/Business &amp; Productivity Software (0.7099999785423279) of 2 total categories._
+  * _URL 8 | Top Category: /Law &amp; Government/Legal (0.8999999761581421) of 3 total categories._
+  * _URL 9 | Top Category: /Reference/General Reference/Forms Guides &amp; Templates (0.6399999856948853) of 1 total categories._
+  * _No categories returned._
 
-上方括号中的数字表示 Google 对页面内容与该类别相关的置信度。对于相同类别，第八个结果比第一个结果具有更高的置信度，因此，这似乎不是定义排名相关性的灵丹妙药。此外，类别太宽泛导致无法满足特定搜索主题的需要。
 
-通过排名查看平均置信度，这两个指标之间似乎没有相关性，至少对于此数据集而言：
 
-![平均置信度排名分布图][24]
+The numbers in parentheses above represent Google's confidence that the content of the page is relevant for that category. The eighth result has much higher confidence than the first result for the same category, so this doesn't seem to be a magic bullet for defining relevance for ranking. Also, the categories are much too broad to make sense for a specific search topic.
 
-这两种方法都可以对网站进行有规模检查以确保内容类别易于理解，并且样板或销售内容不会使您的页面与您的主要专业知识领域无关。想一想，如果您出售工业用品，但是您的页面返回 _Marketing(销售)_ 作为主要类别。似乎没有强烈的建议，即类别相关性至少在页面级别与您的排名有关系。
+Looking at average confidence by ranking position, there doesn't seem to be a correlation between these two metrics, at least for this dataset:
 
-#### 情感
+![Plot of average confidence by ranking position ][24]
 
-我不会在情感上花很多时间。在所有从 API 返回情感的页面中，它们分为两个容器：0.1 和 0.2，这几乎是中立的。根据柱状图，很容易看出情感没有太大价值。对于新闻或舆论网站而言，测量特定页面的情感到中值排名之间的相关性将是一个更加有趣的指标。
+Both of these approaches make sense to review for a website at scale to ensure the content categories seem appropriate, and boilerplate or sales content isn't moving your pages out of relevance for your main expertise area. Think if you sell industrial supplies, but your pages return _Marketing_ as the main category. There doesn't seem to be a strong suggestion that category relevancy has anything to do with how well you rank, at least at a page level.
 
-![独特页面的情感柱状图][25]
+#### Sentiment
 
-#### 实体
+I won't spend much time on sentiment. Across all the pages that returned a sentiment from the API, they fell into two bins: 0.1 and 0.2, which is almost neutral sentiment. Based on the histogram, it is easy to tell that sentiment doesn't provide much value. It would be a much more interesting metric to run for a news or opinion site to measure the correlation of sentiment to median rank for particular pages.
 
-在我看来，实体是 API 中最有趣的部分。这是根据显着性（或与页面的相关性）通过所有页面选择顶级实体。请注意，对于相同的术语（销售清单），Google 会推断出不同的类型，可能是错误的。这是由于这些术语出现在内容中的不同上下文中引起的。
+![Histogram of sentiment for unique pages][25]
 
-![示例网站的顶级实体][26]
+#### Entities
 
-然后，我分别查看了每个实体类型，并一起查看了该实体的显着性与页面的最佳排名位置之间是否存在任何关联。对于每种类型，我将按匹配该类型突出性排序（降序）匹配顶级实体的突出性（与页面的整体相关性）。
+Entities were the most interesting part of the API, in my opinion. This is a selection of the top entities, across all pages, by salience (or relevancy to the page). Notice that Google is inferring different types for the same terms (Bill of Sale), perhaps incorrectly. This is caused by the terms appearing in different contexts in the content.
 
-在所有示例中，某些实体类型返回零突出性，因此我在下面的图表中省略了那些结果。
+![Top entities for example site][26]
 
-![突出性与最佳排名位置的相关性][27]
+Then I looked at each entity type individually and all together to see if there was any correlation between the salience of the entity and the best-ranking position of the page. For each type, I matched the salience (overall relevance to the page) of the top entity matching that type ordered by salience (descending).
 
-**Consumer Good(消费性商品)** 实体类型具有最高的正相关性，皮尔森相关性为 0.15854，尽管由于较低编号的排名更好，所以 **Person(皮尔森)** 实体的最佳结果具有 -0.15483 的相关性。这是一个非常小的样本集，尤其是对于单个实体类型，因此我不能处理太多数据。我没有发现任何具有强相关性的值，但是 **Person(皮尔森)** 实体最有意义。网站通常都有关于其首席执行官和其他主要雇员的页面，这些页面很可能在这些查询的搜索结果方面做得好。
+Some of the entity types returned zero salience across all examples, so I omitted those results from the charts below.
 
-继续，当从整体上看站点，以下主题表现出基于 **entity(实体)** **name(名称)** 和 **entity type(实体类型)**。
+![Correlation between salience and best ranking position][27]
 
-![基于实体名称和实体类型的主题][28]
+The **Consumer Good** entity type had the highest positive correlation, with a Pearson correlation of 0.15854, although since lower-numbered rankings are better, the **Person** entity had the best result with a -0.15483 correlation. This is an extremely small sample set, especially for individual entity types, so I can't make too much of the data. I didn't find any value with a strong correlation, but the **Person** entity makes the most sense. Sites usually have pages about their chief executive and other key employees, and these pages are very likely to do well in search results for those queries.
 
-我使一些看起来过于特殊的掩饰网站身份的结果模糊不清。从主题上讲，名称信息是在您（或竞争对手）的网站上局部查看其核心主题的一种好方法。这样做仅基于示例网站的排名网址，而不是基于所有网站的可能网址（因为 Search Console(搜索引擎) 数据仅记录Google 中展示的页面），但是结果会很有趣，尤其是当您使用像 [Ahrefs][29] 之类的工具拉取主排名网址的网站时，该工具会跟踪许多查询以及这些查询的 Google 搜索结果。
+Moving on, while looking at the site holistically, the following themes emerge based on **entity** **name** and **entity type**.
 
-实体数据中另一个有趣的部分是标记为 **CONSUMER_GOOD** 的实体倾向于 “查看” 像我已经在看到 “Knowledge Results(知识结果)”的结果，即页面右侧的 Google Search (搜索)结果。
+![Themes based on entity name and entity type][28]
 
-![Google 搜索结果][30]
+I blurred a few results that seem too specific to mask the site's identity. Thematically, the name information is a good way to look topically at your (or a competitor's) site to see its core themes. This was done based only on the example site's ranking URLs and not all the site's possible URLs (Since Search Console data only reports on pages that received impressions in Google), but the results would be interesting, especially if you were to pull a site's main ranking URLs from a tool like [Ahrefs][29], which tracks many, many queries and the Google results for those queries.
 
-在我们的数据集中具有三个或三个以上关键字的 **Consumer Good(消费性商品)** 实体名称中，有 5.8％ 的 Knowledge Results与 Google 对该实体命名的结果相同。这意味着，如果您在 Google 中搜索术语或短语，则右侧的框（例如，上面显示 Linux 的 Knowledge Results）将显示在搜索结果页面中。由于 Google 会 “挑选” 代表实体的示例网页，因此这是一个很好的可以在搜索结果中识别出具有唯一特征的机会。同样有趣的是，5.8％ 的在 Google 中显示这些 Knowledge Results 名称中，没有一个实体具有从 Natural Language API 返回 Wikipedia URL。这足够有趣，可以保证额外的分析。这将是非常有用的，尤其是对于更难懂的像 Ahrefs 传统的全球排名跟踪工具主题，在其数据库中则没有。
+The other interesting piece in the entity data is that entities marked **CONSUMER_GOOD** tended to "look" like results I have seen in Knowledge Results, i.e., the Google Search results on the right-hand side of the page.
 
-如前所述，Knowledge Results(知识结果)对于希望在 Google 中使其其内容起作用的网站所有者而言非常重要，因为它们在桌面搜索中加强高亮显示。假设，它们也很可能与 Google [Discover][31] 的知识库主题保持一致，这是一款适用于 Android 和 iOS 的产品，旨在根据用户感兴趣但不明确搜索的主题向用户展示内容。
+![Google search results][30]
 
-### 总结
+Of the **Consumer Good** entity names from our data set that had three or more words, 5.8% had the same Knowledge Results as Google's results for the entity name. This means, if you searched for the term or phrase in Google, the block on the right (eg. the Knowledge Results showing Linux above), would display in the search result page. Since Google "picks" an exemplar webpage to represent the entity, it is a good opportunity to identify opportunities to be singularly featured in search results. Also of interest, of the 5.8% names that displayed these Knowledge Results in Google, none of the entities had Wikipedia URLs returned from the Natural Language API. This is interesting enough to warrant additional analysis. It would be very useful, especially for more esoteric topics that traditional global rank-tracking tools, like Ahrefs, don't have in their databases.
 
-本文介绍了 Google 的自然语言 API，共享了一些代码，并研究了此 API 对网站所有者可能有用的方式。关键要点是：
+As mentioned, the Knowledge Results can be important to site owners who want to have their content featured in Google, as they are strongly highlighted on desktop search. They are also more than likely, hypothetically, to line up with knowledge-base topics from Google [Discover][31], an offering for Android and iOS that attempts to surface content for users based on topics they are interested in but haven't searched explicitly for.
 
-  * 学习使用 Python 和 Jupyter Notebooks 可以开始您的数据收集任务进入令人难以置信的全球 API 和由令人难以置信的聪明和有才能的人构建的开源项目（如 Pandas 和 NumPy）。
-  * Python 允许我为了一个特定目的快速提取和测试有关 API 值的假设。
-  * 通过 Google 的分类 API 传递网站页面可能是一项很好的检查，以确保其内容分解成正确的主题类别。为竞争对手的网站执行此操作还可以提供有关在何处进行调整或创建内容的指导。
-  * 对于示例网站，Google 的情感评分似乎并不是一个有趣的指标，但是对于新闻或基于意见的网站，它可能是一个有趣的指标。
-  * Google 的发现实体从整体上提供了网站的更细化的主题级别视图，并且像分类一样，在竞争性内容分析中使用将非常有趣。
-  * 实体可以帮助定义机会，使您的内容可以与搜索结果或 Google Discover 结果中的 Google Knowledge 块保持一致。我们将5.8％的结果设置为更长的（关键字计数）**Consumer Goods(消费商品)** 实体，显示这些结果，对于某些网站来说，可能有机会更好地优化这些实体的页面突出性分数，从而有更好的机会在 Google 搜索结果或 Google Discovers 建议中捕获此起重要作用的位置。
+### Wrapping up
+
+This article went over Google's Natural Language API, shared some code, and investigated ways this API may be useful for site owners. The key takeaways are:
+
+  * Learning to use Python and Jupyter Notebooks opens your data-gathering tasks to a world of incredible APIs and open source projects (like Pandas and NumPy) built by incredibly smart and talented people.
+  * Python allows me to quickly pull and test my hypothesis about the value of an API for a particular purpose.
+  * Passing a website's pages through Google's categorization API may be a good check to ensure its content falls into the correct thematic categories. Doing this for competitors' sites may also offer guidance on where to tune-up or create content.
+  * Google's sentiment score didn't seem to be an interesting metric for the example site, but it may be for news or opinion-based sites.
+  * Google's found entities gave a much more granular topic-level view of the website holistically and, like categorization, would be very interesting to use in competitive content analysis.
+  * Entities may help define opportunities where your content can line up with Google Knowledge blocks in search results or Google Discover results. With 5.8% of our results set for longer (word count) **Consumer Goods** entities, displaying these results, there may be opportunities, for some sites, to better optimize their page's salience score for these entities to stand a better chance of capturing this featured placement in Google search results or Google Discovers suggestions.
+
+
 
 --------------------------------------------------------------------------------
 
@@ -256,7 +264,7 @@ via: https://opensource.com/article/19/7/python-google-natural-language-api
 
 作者：[JR Oakes][a]
 选题：[lujun9972][b]
-译者：[stevenzdg988](https://github.com/stevenzdg988)
+译者：[译者ID](https://github.com/译者ID)
 校对：[校对者ID](https://github.com/校对者ID)
 
 本文由 [LCTT](https://github.com/LCTT/TranslateProject) 原创编译，[Linux中国](https://linux.cn/) 荣誉推出
