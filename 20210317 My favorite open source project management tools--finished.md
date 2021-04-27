@@ -1,181 +1,351 @@
-[#]: subject: (My favorite open source project management tools)
-[#]: via: (https://opensource.com/article/21/3/open-source-project-management)
-[#]: author: (Frank Bergmann https://opensource.com/users/fraber)
+[#]: subject: (Measure your Internet of Things with Raspberry Pi and open source tools)
+[#]: via: (https://opensource.com/article/21/3/iot-measure-raspberry-pi)
+[#]: author: (Darin London https://opensource.com/users/dmlond)
 [#]: collector: (lujun9972)
-[#]: translator: (stevenzdg988)
+[#]: translator: ( )
 [#]: reviewer: ( )
 [#]: publisher: ( )
 [#]: url: ( )
 
-我最喜欢的开源项目管理工具
+Measure your Internet of Things with Raspberry Pi and open source tools
 ======
-如果您要管理大型复杂的项目，请尝试利用开源选项替换 Microsoft Project(微软项目管理软件)。
-![看板式组织活动][1]
+Setting up an environment-monitoring system demonstrates how to use open
+source tools to keep tabs on temperature, humidity, and more.
+![Metrics and a graph illustration][1]
 
-诸如建造卫星，开发机器人或推出新产品之类的项目都是昂贵的，涉及不同的提供商，并且包含必须跟踪的硬依赖性。
+If you are interested in measuring and interacting with the world around you through the Internet of Things (IoT), there are a variety of inexpensive microcontrollers and microcomputers you can use. There are also many sensors available that connect to these devices to measure many aspects of the physical world.
 
-大型项目领域中的项目管理方法非常简单（至少在理论上如此）。您可以创建项目计划并将其拆分为较小的部分，直到您可以合理地将成本，持续时间，资源和依赖性分配给各种活动。一旦项目计划获得负责人的批准，您就可以使用它来跟踪项目的执行情况。在时间轴上绘制项目的所有活动将产生一个称为[Gantt chart(甘特图表)][2]的条形图。
+These sensors interface with the microcontroller boards using the [I2C][2] message bus, which programs that run on the boards can access using open source libraries in [MicroPython][3], Java, C#, and other popular programming languages. These devices and libraries make it very easy to create sophisticated data-collection systems.
 
-Gantt(甘特)图一直用于[瀑布项目方法][3]，也可以被灵活地使用。例如，大型项目可能将 Gantt chart (甘特图)用于 Scrum 冲刺，而忽略其他像用户需求这样的细节，从而嵌入灵活的阶段。其他大型项目可能包括多个产品版本（例如，最低可行产品 [MVP]，第二版本，第三版本等）。在这种情况下，上层结构对灵活性友善，用每个阶段计划作为 Gantt chart (甘特图)处理预算和复杂的依赖关系。
+To demonstrate how easy and powerful this is, I built a greenhouse monitoring system using the following components that I purchased from [SparkFun][4]:
 
-### 项目管理工具
-
-不夸张地说，有数百种可用工具使用 Gantt chart (甘特图)管理大型项目，Microsoft Project(微软项目管理软件)可能是最受欢迎的工具。它是 Microsoft Office(微软办公软件)系列(家族)的一部分，可扩展到成千上万的活动，并且具有众多(难以置信的数量)功能，可支持几乎所有可能的方式来管理项目进度表。对于 Project(微软项目管理软件)并不总是清楚什么更昂贵：软件许可或如何使用该工具的培训课程。
-
-另一个缺点是 Microsoft Project 是一个独立的桌面应用程序，只有一个人可以更新进度表。如果要多个用户进行协作，则需要购买 Microsoft Project Server，Web 版的 Project(微软项目管理软件) 或 Microsoft Planner 的许可证。
-
-幸运的是，专有工具还有开源的替代品，包括本文中的应用程序。所有这些都是开源的，并且包括用于安排基于资源和依赖项分层活动的 Gantt (甘特图)。 ProjectLibre，GanttProject 和 TaskJuggler 是单个项目管理的桌面应用程序。ProjeQtOr 和 Redmine 是用于项目团队的 Web 应用程序，而 ]project-open[ 是用于管理整个组织的 Web 应用程序。
-
-我根据一个单用户计划并跟踪一个大型项目评估了这些工具。我的评估标准包括 Gantt 编辑器功能，Windows，Linux 和 macOS 上的可用性，可扩展性，导入/导出和报告。（完全披露：我是 ]project-open[ 的创始人，并且我在多个开源社区中活跃了很多年。此列表包括我们的产品，因此我的观点可能有偏见，但我尝试着眼于每个产品的最佳功能。）
-
-### Redmine 4.1.0
-
-![Redmine][4]
-
-(Frank Bergmann, [CC BY-SA 4.0][5])
-
-[Redmine][6]是一个基于 Web 的专注于灵活原则的项目管理工具。
-
-标准安装包括 Gantt (甘特图)时间轴视图，但缺少诸如调度，拖放，缩进(缩排和凸排)以及资源分配之类的基本功能。您必须单独编辑任务属性才能更改任务树的结构。
-
-Redmine 具有 Gantt (甘特图)编辑器插件，但是它们已经过时（例如 [Plus Gantt][7]）或专有（例如 [ANKO Gantt 图表][8]）。如果您知道其他开源 Gantt 编辑器插件，请在评论中分享它们。
-
-Redmine 用 Ruby 的 Rails 框架编写，可用于 Windows，Linux 和 macOS。该内核已获得 GPLv2 许可。
-
-  * **最适合：** 使用灵活方法的 IT 团队
-  * **独特的销售主张：** 这是 OpenProject 和 EasyRedmine 的最初“上游”父项目。
-
-### ]project-open[ 5.1
-
-![\]project-open\[][9]
-
-(Frank Bergmann, [CC BY-SA 4.0][5])
-
-[]project-open[][10]是一个基于 Web 的项目管理系统，它具有整个组织的透视图，类似于企业资源计划（ERP）系统。它还可以管理项目档案，预算，发票，销售，人力资源和其他功能领域。存在用于运行项目公司的专业服务自动化（PSA），用于管理企业战略项目的项目管理办公室（PMO）和用于管理部门项目的企业项目管理（EPM）的特定变体。
-
-Gantt 编辑器包括按等级划分的任务，依赖关系和基于计划的工作和分配资源的计划。它不支持资源日历和非人力资源。]po[ 系统非常复杂，GUI 可能需要刷新。
-
-]project-open[ 用 TCL 和 JavaScript 编写，可用于 Windows 和 Linux。 ]po[ 核心已获得 GPLv2 许可，并具有适用于大公司的专有扩展。
-
-  * **最适合：** 需要大量财务项目报告的中大型项目组织
-  * **独特的销售主张：** ]po[ 是运行整个项目公司或部门的集成系统。
+  * [Raspberry Pi Zero W with headers][5]
+  * [Power supply][6]
+  * [Qwiic pHAT][7]
+  * [Qwiic cables][8]
+  * [Qwiic Environmental Combo breakout][9]
+  * [Qwiic ambient light detector][10]
+  * [32GB microSD card][11]
+  * [Metal standoffs][12], [screws][13], and [nuts][14]
 
 
-### ProjectLibre 1.9.3
 
-![ProjectLibre][11]
+Adafruit has very similar offerings and connection systems.
 
-(Frank Bergmann, [CC BY-SA 4.0][5])
+### Getting to know Prometheus
 
-在开源世界中，[ProjectLibre][12] 可能是最接近 Microsoft Project 的产品。它是一个桌面应用程序，支持所有重要的项目计划功能，包括资源日历，基线和成本管理。它还允许您使用 MS-Project 的文件格式导入和导出计划。
+One of the first things you can do to start interacting with your world is to collect and analyze data acquired by sensors. Open source software makes it easy to collect, analyze, display, and even take action on your data.
 
-ProjectLibre 非常适合计划和执行中小型项目。然而，它缺少 MS-Project 中的一些高级功能，并且它的 GUI 并不是最漂亮的。
+The [Prometheus][15] family of applications makes it easy to collect, store, and analyze data as a time series of individual events. I will briefly introduce the relevant parts of the Prometheus architecture; if you would like to learn more, there are many great articles about Prometheus on Opensource.com, including [_An introduction to monitoring with Prometheus_][16] and [_Achieve high-scale application monitoring with Prometheus_][17].
 
-ProjectLibre 用 Java 编写，可用于 Windows，Linux 和macOS，并已获得开放源代码通用公共属性（CPAL）许可证。ProjectLibre 团队目前正在专有许可下开发名为 ProjectLibre Cloud 的 Web 产品。
+The Prometheus suite includes the following applications, which can be plugged together in various ways.
 
-  * **最适合：** 个人项目经理，负责中小型项目，或者作为没有完整的 MS-Project 许可证的项目成员的查看者
-  * **独特的销售主张：** 这是使用开源软件可以最接近 MS-Project。
+#### [Prometheus][18]
 
-### GanttProject 2.8.11
+The main Prometheus service is a powerful time-series database that runs on a general-purpose computer, such as a Linux machine, cloud service, or Raspberry Pi (the Raspberry Pi 4 is recommended). A Prometheus instance can be configured to regularly "scrape" various file- and network-connected exporter services (e.g., HTTP, TCP, etc.) in the [Prometheus exposition format][19]. A single Prometheus service can be configured to scrape multiple targets, each with a unique job name. A scrape target publishes data in the form of events with a user-defined name, timestamp, value, and optional set of key-value annotations. If a data source publishes data without a timestamp, the scrape's exact time is automatically added to the event when it is stored. It can also be configured to communicate with one or more Alertmanager instances running on the same host or another host on the same network.
 
-![GanttProject][13]
+Once events are published in a Prometheus service, they can be queried using the [Prometheus Query Language][20]. PromQL queries can be used to create tables and graphs of events. They can also be used to configure alerts, whereby a PromQL query condition's truth causes the Prometheus service to set the configured alert's firing state as `true`; this alert will remain in the firing state as long as the condition is true. Once the condition becomes false, the alert firing state is set to `false`.
 
-(Frank Bergmann, [CC BY-SA 4.0][5])
+Multiple instances of an exporting service can publish the same metrics but differentiated by annotations to identify the sensor. For example, if you have three greenhouse monitors, each can publish its temperature, humidity, and other metrics, annotated with something like `greenhouse=1`, `greenhouse=2`, or `greenhouse=3`. Graphs, tables, and alerts can be configured to show all instances for a particular metric or just the metrics with specific annotations.
 
-[GanttProject][14] 与 ProjectLibre 类似，但它是桌面 Gantt (甘特图)编辑器，但功能集更为有限。 它不支持基线，也不支持非人力资源，并且报告功能受到更多限制。
+All metrics stored in Prometheus are annotated with the job defined for the scrape target in the configuration. Every scrape target configured in a Prometheus service has a Boolean metric called `up`, which is set to `true` each time the service successfully scrapes the target and `false` when it cannot. This is a useful metric to use in PromQL queries to define alerts when a service goes down.
 
-GanttProject 是一个用 Java 编写的桌面应用程序，可在 GPLv3 许可下用于 Windows，Linux 和 macOS。
+#### [Alertmanager][21]
 
-  * **最适合：**  Simple Gantt (甘特图)或学习基于 Gantt 的项目管理技术。
-  * **独特的销售主张：** 它支持程序评估和审阅技术（[PERT][15]）图表以及使用 WebDAV 的协作。
+The main Prometheus service does not act on alerts—it just holds the alerts' state as firing or not firing at any particular moment. The Alertmanager service works with a Prometheus service to set up notifications when alerts defined in Prometheus are firing. One or more Alertmanager services can be configured to run on general-purpose computers on the same network as the Prometheus service.
 
-### TaskJuggler 3.7.1
+Alertmanager notifications can be configured to communicate with various external systems, including email gateways, web service endpoints, chat services, and popular ticketing systems. Each notification can be templated to use various attributes about the event, including all of its annotations, to produce the notification message.
 
-![TaskJuggler][16]
+#### [Node Exporter][22]
 
-(Frank Bergmann, [CC BY-SA 4.0][5])
+Node Exporter is a very simple daemon that runs on a general-purpose computer host as a web service and exports data about that host via HTTP in the Prometheus exposition format. It is programmed to produce many different metrics about its host, such as CPU and memory utilization, using logic defined for each specific host architecture (e.g., proc filesystem, Windows Registry, etc.).
 
-[TaskJuggler][17]在大型组织中安排多个并行项目，重点是自动解决资源分配冲突（即资源均衡）。
+A Node Exporter instance can also be configured to present one or more Prometheus exposition format compliant files on the host filesystem. This makes it useful for publishing metrics produced by another application running on the same host. The example greenhouse monitoring system uses a Python program to collect data from the sensors and produce a Prometheus-formatted export file, and Node Exporter publishes these metrics.
 
-它不是交互式的 Gantt 编辑器，而是类似于编译器的命令行工具：它从文本文件中读取任务列表，并生成一系列报告，这些报告根据分配的资源，依赖项，优先级和许多其他参数为每个任务提供最佳的开始和结束时间。它支持多个项目，基线，资源日历，班次和时区，并且已设计为可扩展到具有许多项目和资源的企业方案。
+#### [Pushgateway][23]
 
-使用特定语法编写 TaskJuggler 输入文件可能超出了普通项目经理的能力。但是，您可以使用 ]project-open[ 作为 TaskJuggler 的图形前端来生成输入，包括缺勤，任务进度和记录的工作时间。当以这种方式使用时，TaskJuggler 成为功能强大的假设情景规划师。
+A Raspberry Pi Zero, 3, or 4 can host a Node Exporter, but other microcontrollers (such as an Arduino or Raspberry Pi Pico) cannot. Pushgateway enables these devices to publish their metrics. It is a microservice that can run on another general-purpose computer host (such as a desktop, a cloud, or even a Rasberry Pi Zero, 3, or 4) and present a prometheus exposition formatted feed for a Prometheus service to scrape, and a REST API that other processes connected to its network can use to report custom metrics.
 
-TaskJuggler 用 Ruby 编写，并且在 GPLv2 许可下可用于 Windows，Linux 和 macOS。
+A Pushgateway instance can run on the same host as the Prometheus service or a different host on the same network. If the microprocessor can communicate with the network using the Pushgateway and Prometheus services (e.g., an Ethernet cable, WiFi, or [LoRaWAN][24]), the process running on the microcontroller can use a standard HTTP library to report metrics using the Pushgateway REST API as part of its process loop.
 
-  * **最适合：** 由真正的书呆子管理的中大型部门
-  * **独特的销售主张：** 它在自动资源均衡方面表现出色。
+#### [Grafana][25]
 
-### ProjeQtOr 9.0.4
+Grafana is not part of the Prometheus suite. It is an open source observability system designed to pull in data from multiple external data sources and integrate the data into customizable visualization dashboards. Grafana can pull data in from a variety of external system types, including Prometheus. It's another powerful, open source application that you can use to create sophisticated dashboards with the data produced by your devices. Grafana can also be installed onto a general-purpose computer, such as a desktop or a Raspberry Pi Zero, 3, or 4. (I installed it on the Raspberry Pi 4 that hosts the Prometheus and Alertmanager services.)
 
-![ProjeQtOr][18]
+There are plenty of tutorials available to help you get up and running with Grafana, including several on Opensource.com, such as _[The perfect combo with Prometheus and Grafana, and more industry trends][26]_ and _[Monitoring Linux performance with Grafana][27]_.
 
-(Frank Bergmann, [CC BY-SA 4.0][5])
+Once Grafana is installed, use your browser to navigate to the Grafana host's hostname or internet protocol address (IP) at port 3000, and log in with the default credentials (**blank** / **admin**). Make sure to change the admin password. You can then add a data source and use the menu to choose the Prometheus main server's IP or host and port. Once you add the data source, you can start to graph data from Prometheus or create dashboards.
 
-[ProjeQtOr][19] 是适用于 IT 项目的基于 Web 的项目管理应用程序。除项目，工单和活动外，它还支持风险，预算，可交付成果和财务文件，以将项目管理的许多方面集成到单个系统中。
+If you are installing any of the above on a Raspberry Pi, ensure you download the [Prometheus][28] and [Grafana][29] binary distributions for your CPU's architecture. On a running Raspberry Pi, you can use either of these commands:
 
-ProjeQtOr 为 Gantt 编辑器提供了与 ProjectLibre 类似的功能集，包括按等级划分的任务，依赖关系以及基于计划工作和分配资源。但是，它不支持值的就地编辑（例如，任务名称，估计时间等）；用户必须在 Gantt 视图下方的输入表单中更改值，然后保存值。
+  * `uname -m`
+  * `cat /proc/cpuinfo`
 
-ProjeQtOr 用 PHP 编写，并且在 Affero GPL3 许可下可用于 Windows，Linux 和 macOS。
 
-  * **最适合：** IT 部门跟踪项目列表
-  * **独特的销售主张：** 让您为每个项目存储大量信息，将所有信息保存在一个地方。
 
-### 其他工具
+to get cpu architecture. It will say something like armv7.
 
-对于特定的用例，以下系统可能是有效的选项，但由于各种原因，它们被排除在主列表之外。
+### Connect the Raspberry Pi Zero's sensors
 
-![LIbrePlan][20]
+Once you have somewhere to store the data, you can assemble and configure the greenhouse monitoring device. I flashed the MicroSD card with the [Raspberry Pi OS Lite][30] image and configured it for [headless connection over WiFi][31]. I plugged the Qwiiic pHAT onto the Pi Zero headers and connected the Qwiic cables from the Qwiic pHAT to each of the light and environmental combo sensors. (Be sure to plug the yellow cable into the Qwiic pHAT on the side with the Pi header connection and into the sensors on the side with the I2C solder connection holes.) It is also possible to daisy-chain the sensors if you have only one Qwiic connection to your Raspberry Pi.
 
-(Frank Bergmann, [CC BY-SA 4.0][5])
+![Wiring architecture][32]
 
-  * [**LibrePlan**][21] 是一个基于 Web 的项目管理应用程序，致力于 Gantt 图。由于其功能集，它在上面的列表中会占主导地位，但是没有可用于最新 Linux 版本（CentOS 7 或 8）的安装。作者说，更新的说明将很快推出。
-   * [**dotProject**][22] 是一个用 PHP 编写的基于 Web 的项目管理系统，可在 GPLv2.x 许可下使用。它包含一个 Gantt 时间轴报告，但是没有编辑它的选项，并且依赖项还不起作用（它们“仅部分起作用”）。
+(Darin London, [CC BY-SA 4.0][33])
 
-  * [**Leantime**][23] 是一个基于 Web 的项目管理系统，具有漂亮的用 PHP 编写的 GUI，并且可以在 GPLv2 许可下使用。它包括用于时间表的没有依赖关系 Gantt 时间线。
-  * [**Orangescrum**][24] 是基于 Web 的项目管理工具。Gantt 图可以作为付费附件或付费订阅使用。
-  * [**Talaia/OpenPPM**][25] 是一个基于 Web 的项目组合管理系统。但是，版本 4.6.1 仍显示“即将推出：交互式 Gantt 图”。
-  * [**Odoo**][26] 和 [**OpenProject**][27]都将某些重要功能限制在付费企业版中。
+Once the Raspberry Pi is connected to the sensors, plug the SD card into its slot, connect the power supply, and power it up. It will boot up, and then you should be able to connect to the Raspberry Pi using:
 
-在这篇评论中，目的是包括所有带有 Gantt 编辑器和依赖调度的开源项目管理系统。如果我错过了一个项目或歪曲了一些东西，请在评论中让我知道。
+
+```
+`ssh pi@raspbberrypi.local`
+```
+
+The default password is **raspberry**, but change it to something more secure using the `passwd` command. You can also use ping on your desktop to get the host's IP address and use it instead of the `raspberrypi.local` address. (This is useful if you have multiple Pis on your network.)
+
+### Install Node Exporter
+
+Install the Node Exporter application on your Raspberry Pi Zero by [downloading][34] the binary distribution for your architecture from the Prometheus website. Once it is installed, [configure it as a systemd service][35] so that it automatically starts and stops with the Raspberry Pi.
+
+### Install Python sensor libraries
+
+Raspberry Pi OS comes with Python 3, but it does not include the libraries required to interact with the sensors. Fortunately, there are Python libraries available.
+
+Install SparkFun's official [Qwiic_Py library][36] to access the sensors on the Environmental Combo breakout. If you are using Raspberry Pi OS Lite, you have to install [pip][37] (the Python package installer) for Python 3:
+
+
+```
+`sudo apt install python3-pip`
+```
+
+The light sensor does not yet have an official SparkFun or Adafruit Python package, but you can get an open source [vml6030.py package][38] from its GitHub repo and copy it to `/home/pi` to use it in your monitoring application. It is based on the official SparkFun Arduino library.
+
+### Install the greenhouse monitor code
+
+The `greenhouse_monitor.py` script in this project's [GitHub repo][39] uses the Python sensor libraries to append metrics for `ambient_temperature`, `ambient_humidity`, and `ambient_light` every 11 seconds to a file named `/home/pi/metrics.prom` in the format Prometheus expects:
+
+
+```
+#!/usr/bin/python3
+
+from veml6030 import VEML6030
+import smbus2
+import qwiic_bme280
+import time
+import sys
+
+def instrument_metrics(light,temp,humidity):
+  metrics_out = open('/home/pi/metrics.prom', 'w+')
+  print('# HELP ambient_temperature temperature in fahrenheit', flush=True, file=metrics_out)
+  print('# TYPE ambient_temperature gauge', flush=True, file=metrics_out)
+  print(f'ambient_temperature {temp}', flush=True, file=metrics_out)
+  print('# HELP ambient_light light in lux', flush=True, file=metrics_out)
+  print('# TYPE ambient_light gauge', flush=True, file=metrics_out)
+  print(f'ambient_light {light}', flush=True, file=metrics_out)
+  print('# HELP ambient_humidity humidity in %RH', flush=True, file=metrics_out)
+  print('# TYPE ambient_humidity gauge', flush=True, file=metrics_out)
+  print(f'ambient_humidity {humidity}', flush=True, file=metrics_out)
+  metrics_out.close()
+
+print("Starting Greenhouse Monitor")
+bus = smbus2.SMBus(1)  # For Raspberry Pi
+light_sensor = VEML6030(bus)
+environment_sensor = qwiic_bme280.QwiicBme280()
+
+if environment_sensor.is_connected() == False:
+        print("The Environment Sensor isn't connected to the system. Please check your connection", file=sys.stderr)
+        exit(1)
+environment_sensor.begin()
+while True:
+        light = light_sensor.read_light()
+        temp = environment_sensor.temperature_fahrenheit
+        humidity = environment_sensor.humidity
+        instrument_metrics(light, temp, humidity)
+        time.sleep(11)
+```
+
+This can be set up as a systemd service, `/etc/systemd/system/greenhouse_montor.service`:
+
+
+```
+[Unit]
+Description=Greenhouse Monitor
+Documentation=<https://github.com/prometheus/node\_exporter>
+After=network-online.target
+
+[Service]
+User=pi
+Restart=on-failure
+
+ExecStart=/home/pi/greenhouse_monitor.py
+
+[Install]
+WantedBy=multi-user.target
+```
+
+A Node Exporter can also be configured as a systemd service to publish the metrics file produced by the `greenhouse_montitor.py` script at `/etc/systemd/system/node_exporter.service`:
+
+
+```
+[Unit]
+Description=Node Exporter
+Documentation=<https://github.com/prometheus/node\_exporter>
+After=network-online.target
+
+[Service]
+User=pi
+Restart=on-failure
+
+ExecStart=/usr/local/bin/node_exporter \
+  --no-collector.arp \
+  --no-collector.bcache \
+  --no-collector.bonding \
+  --no-collector.btrfs \
+  --no-collector.cpu --no-collector.cpufreq --no-collector.edac --no-collector.entropy --no-collector.filefd --no-collector.hwmon --no-collector.ipvs \
+  --no-collector.loadavg \
+  --no-collector.mdadm \
+  --no-collector.meminfo \
+  --no-collector.netdev \
+  --no-collector.netstat \
+  --no-collector.nfs \
+  --no-collector.nfsd \
+  --no-collector.rapl \
+  --no-collector.softnet \
+  --no-collector.stat \
+  --no-collector.time \
+  --no-collector.timex \
+  --no-collector.uname \
+  --no-collector.vmstat \
+  --no-collector.xfs \
+  --no-collector.zfs \
+  --no-collector.netclass \
+  --no-collector.powersupplyclass \
+  --no-collector.pressure \
+  --no-collector.diskstats \
+  --no-collector.filesystem \
+  --no-collector.conntrack \
+  --no-collector.infiniband \
+  --no-collector.schedstat \
+  --no-collector.sockstat \
+  --no-collector.thermal_zone \
+  --no-collector.udp_queues \
+  --collector.textfile.directory=/home/pi
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Note that you can leave off all the `--nocollector.*` arguments, and `node_exporter` will export lots of metrics about the Raspberry Pi host and the `greenhouse_monitor` data.
+
+Once the systemd service definitions are in place, you can add and enable them using systemctl, and they will start as soon as your Raspberry Pi boots up and has a network:
+
+
+```
+sudo systemctl enable greenhouse_monitor.py
+sudo systemctl enable node_exporter
+```
+
+You can troubleshoot these services using:
+
+
+```
+`sudo systemctl status $servicename`
+```
+
+The Python script and systemd service definition files are available in the [project's GitHub repo][39].
+
+### Restart the Raspberry Pi Zero and start monitoring
+
+When the Raspberry Pi starts, it will start `greenhouse_monitor.py` and the `node_exporter` service. You can visit the `node_exporter` service using the IP or hostname of the Raspberry Pi running the greenhouse monitor at port 9100 (e.g., `http://$ip:9100`). Refresh every 11 seconds to see new entries.
+
+### Configure the Prometheus server scrape endpoint
+
+Once your greenhouse monitor's Node Exporter is exporting metrics, you can configure the Prometheus service to scrape it. Add the following lines to the `prometheus.yml` configuration file within the `scrape_configs` section (replace the IP in the targets with the IP of the device running the greenhouse_monitoring service on your network):
+
+
+```
+ - job_name: 'greenhouse_monitor'
+ 
+        # metrics_path defaults to '/metrics'
+        # scheme defaults to 'http'.
+ 
+        static_configs:
+        - targets: ['192.168.1.12:9100']
+```
+
+Prometheus will automatically load the configuration file every few seconds and start scraping your greenhouse monitor. You can verify that it has started scraping (and get its up/down status) by visiting the Prometheus web user interface (UI) targets page at `http://$prometheus_host:9090/targets`.
+
+If it is up (and green), you can query metrics in the Prometheus web UI graphs page `http://$prometheus_host:9090/graph`.
+
+![Prometheus web UI graphs page][40]
+
+(Darin London, [CC BY-SA 4.0][33])
+
+Once you are getting data in Prometheus, you can visit the Grafana service at `http://$graphana_host:3000`. I created a dashboard called Greenhouse with the panels for the three metrics exported by the greenhouse monitor. You can set Grafana to show data in the panels using the time controls. I was able to get the values for a 24-hour period from midnight to 11:59:59pm on the same day using the format `from: YYYY-MM-DD 00:00:00` and `To: YYYY-MM-DD 23:59:59`.
+
+![24-hour metrics][41]
+
+(Darin London, [CC BY-SA 4.0][33])
+
+Notice the time of day when the sun was shining through a window onto the device?
+
+### What should you measure next?
+
+You have a treasure-trove of data at your fingertips to examine the physical world. Next, you could [configure Alertmanager][42] to send notifications through various communication technologies (e.g., webhooks, Slack, Gmail, PagerDuty, etc.) when alerts configured in Prometheus are firing.
+
+Now that you know how to measure your world, the question becomes: What do you want to measure?
 
 --------------------------------------------------------------------------------
 
-via: https://opensource.com/article/21/3/open-source-project-management
+via: https://opensource.com/article/21/3/iot-measure-raspberry-pi
 
-作者：[Frank Bergmann][a]
+作者：[Darin London][a]
 选题：[lujun9972][b]
-译者：[stevenzdg988](https://github.com/stevenzdg988)
+译者：[译者ID](https://github.com/译者ID)
 校对：[校对者ID](https://github.com/校对者ID)
 
 本文由 [LCTT](https://github.com/LCTT/TranslateProject) 原创编译，[Linux中国](https://linux.cn/) 荣誉推出
 
-[a]: https://opensource.com/users/fraber
+[a]: https://opensource.com/users/dmlond
 [b]: https://github.com/lujun9972
-[1]: https://opensource.com/sites/default/files/styles/image-full-size/public/lead-images/kanban_trello_organize_teams_520.png?itok=ObNjCpxt (Kanban-style organization action)
-[2]: https://en.wikipedia.org/wiki/Gantt_chart
-[3]: https://opensource.com/article/20/3/agiles-vs-waterfall
-[4]: https://opensource.com/sites/default/files/uploads/redmine.png (Redmine)
-[5]: https://creativecommons.org/licenses/by-sa/4.0/
-[6]: https://www.redmine.org/
-[7]: https://redmine.org/plugins/plus_gantt
-[8]: https://www.redmine.org/plugins/anko_gantt_chart
-[9]: https://opensource.com/sites/default/files/uploads/project-open.png (]project-open[)
-[10]: https://www.project-open.com
-[11]: https://opensource.com/sites/default/files/uploads/projectlibre.png (ProjectLibre)
-[12]: http://www.projectlibre.org
-[13]: https://opensource.com/sites/default/files/uploads/ganttproject.png (GanttProject)
-[14]: https://www.ganttproject.biz
-[15]: https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique
-[16]: https://opensource.com/sites/default/files/uploads/taskjuggler.png (TaskJuggler)
-[17]: https://taskjuggler.org/
-[18]: https://opensource.com/sites/default/files/uploads/projeqtor.png (ProjeQtOr)
-[19]: https://www.projeqtor.org
-[20]: https://opensource.com/sites/default/files/uploads/libreplan.png (LIbrePlan)
-[21]: https://www.libreplan.dev/
-[22]: https://dotproject.net/
-[23]: https://leantime.io
-[24]: https://orangescrum.org/
-[25]: http://en.talaia-openppm.com/
-[26]: https://odoo.com
-[27]: http://openproject.org
+[1]: https://opensource.com/sites/default/files/styles/image-full-size/public/lead-images/metrics_graph_stats_blue.png?itok=OKCc_60D (Metrics and a graph illustration)
+[2]: https://en.wikipedia.org/wiki/I%C2%B2C
+[3]: https://micropython.org/
+[4]: https://www.sparkfun.com/
+[5]: https://www.sparkfun.com/products/15470
+[6]: https://www.sparkfun.com/products/13831
+[7]: https://www.sparkfun.com/products/15945
+[8]: https://www.sparkfun.com/products/15081
+[9]: https://www.sparkfun.com/products/14348
+[10]: https://www.sparkfun.com/products/15436
+[11]: https://www.sparkfun.com/products/14832
+[12]: https://www.sparkfun.com/products/10463
+[13]: https://www.sparkfun.com/products/10453
+[14]: https://www.sparkfun.com/products/10454
+[15]: https://prometheus.io/
+[16]: https://opensource.com/article/19/11/introduction-monitoring-prometheus
+[17]: https://opensource.com/article/19/10/application-monitoring-prometheus
+[18]: https://prometheus.io/docs/introduction/overview/
+[19]: https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md
+[20]: https://prometheus.io/docs/prometheus/latest/querying/basics/
+[21]: https://prometheus.io/docs/alerting/latest/alertmanager/
+[22]: https://prometheus.io/docs/guides/node-exporter/
+[23]: https://prometheus.io/docs/practices/pushing
+[24]: https://en.wikipedia.org/wiki/LoRa#LoRaWAN
+[25]: https://grafana.com/
+[26]: https://opensource.com/article/20/5/Prometheus-Grafana-and-more-industry-trends
+[27]: https://opensource.com/article/17/8/linux-grafana
+[28]: https://prometheus.io/download/
+[29]: https://grafana.com/grafana/download
+[30]: https://www.raspberrypi.org/software/operating-systems/
+[31]: https://www.raspberrypi.org/documentation/configuration/wireless/headless.md
+[32]: https://opensource.com/sites/default/files/uploads/raspberrypi-qwiic-wiring.jpg (Wiring architecture)
+[33]: https://creativecommons.org/licenses/by-sa/4.0/
+[34]: https://prometheus.io/docs/guides/node-exporter/#installing-and-running-the-node-exporter
+[35]: https://pimylifeup.com/raspberry-pi-prometheus
+[36]: https://github.com/sparkfun/Qwiic_Py
+[37]: https://pypi.org/project/pip/
+[38]: https://github.com/n8many/VEML6030py
+[39]: https://github.com/dmlond/greenhouse
+[40]: https://opensource.com/sites/default/files/pictures/prometheus-web-ui-graphs-page.png (Prometheus web UI graphs page)
+[41]: https://opensource.com/sites/default/files/uploads/24-hour-metrics.png (24-hour metrics)
+[42]: https://prometheus.io/docs/alerting/latest/configuration/
